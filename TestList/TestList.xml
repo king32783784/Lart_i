@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test ostype="desktop">
+  <list>
+    <Typelists>info performance stability function</Typelists>
+    <type>performance</type>
+    <arch>x86_64</arch>
+    <date>2016-02-17</date>
+    <osversion>4.0</osversion>
+    <summary>This is a list system update test requirements.</summary>
+    <Supportlists>Perf_kernel Perf_cpu Perf_thread Perf_mem Perf_io Perf_net Perf_os Perf_compression Perf_encoding Perf_graphics Perf_compiler Perf_browser</Supportlists>
+    <testitems>
+      <item>Perf_cpu</item>
+      <item>Perf_thread</item>
+      <item>Perf_io</item>
+    </testitems>
+  </list>
+</test>
