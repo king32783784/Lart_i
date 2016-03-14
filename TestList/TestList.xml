@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<test ostype="desktop">
+<test ostype="server">
   <list>
     <Typelists>info performance stability function</Typelists>
     <type>performance</type>
