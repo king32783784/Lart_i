@@ -1,5 +1,5 @@
 import os, time
-from Public import resultprocess_dir 
+from daemon_id.Public import resultprocess_dir 
 from Auto_mail import automail_result
 
 def Perf_result_process():

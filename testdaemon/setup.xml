@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<config>
+    <summary type="string" tagname="summary">Lart_i Test Setting File</summary>
+    <basic>
+        <arch type="string" tagname="arch">x86_64</arch>
+        <date type="string" tagname="date">2016-02-17</date>
+        <osver tyep="int" tagname="osversion">4.0</osver>
+    </basic>
+    <common>
+        <isourl type="url" tagname="isourl">http://192.168.32.18/iso/</isourl>
+        <!--isourl:"Specifies the network path ISO store,forexample"http://xxx.xxx.xxx.xxx/xxx" -->
+        <checkfrequency type="time" tagname="check iso frequency">60S</checkfrequency>
+        <!--Y:year; m:month; d:day; H:hour; M:minute-->
+        <!--checkfrequency:"Specify the frequency for query ISO change" -->
+        <testtooldir type="dir" tagname="testtool directory">/var/cache</testtooldir>
+        <!--Specifies the directory for storing the testtool-->
+    </common>
+    <result>
+        <resultdir type="dir" tagname="result directory">default</resultdir>
+        <!--resultdir:"Specifies the directory for storing the results.default:$testtooldir/Isoft-desktop-autotest/Results-Processing/Source_data/"-->
+        <comparingos>default</comparingos>
+        <!--comparingos:Performance testing of the target system.default:The last test os-->
+        <maillist type="mailaddress" tagname="mail address list">peng.li@i-soft.com.cn</maillist>
+        <!--maillist:Specifies the send test results mailing list,forexample:**@i-soft.com.cn **@gmail.com-->
+    </result>
+    <data/>
+</config>

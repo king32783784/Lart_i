@@ -1,7 +1,7 @@
 import os,sys,shutil,time
 import linecache,re
 from perf_setup import Perf_setup
-from Public import os_name,resultprocess_dir
+from daemon_id.Public import os_name,resultprocess_dir
 '''Performance test control.This test control by autotest'''
 
 class Run_perftest():
