@@ -1,2 +1,2 @@
 #Lart_i
-##该框架，用于衔接linux产品开发或维护过程中的自动回归测试
+##The framework for bridging Linux product development or maintenance of automated regression testing
