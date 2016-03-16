@@ -4,9 +4,6 @@ import sys, os, time, atexit
 from signal import SIGTERM 
 import threading 
 
-class checkupdate(threading.Thread):
-    def run(self):
-        print "hello world"
 class Daemon:
     """
     A generic daemon class.
@@ -21,12 +18,8 @@ class Daemon:
     
     def _daemonize(self):
         """
-        do the UNIX double-fork magic, see Stevens' "Advanced 
-        Programming in the UNIX Environment" for details (ISBN 0201563177)
-        http://www.erlenstar.demon.co.uk/unix/faq_2.html#SEC16
         """
-        
-        #脱离父进程
+
         try: 
             pid = os.fork() 
             if pid > 0:
@@ -35,14 +28,10 @@ class Daemon:
             sys.stderr.write("fork #1 failed: %d (%s)\n" % (e.errno, e.strerror))
             sys.exit(1)
     
-        #脱离终端
         os.setsid() 
-        #修改当前工作目录  
         os.chdir("/") 
-        #重设文件创建权限
         os.umask(0) 
     
-        #第二次fork，禁止进程重新打开控制终端
         try: 
             pid = os.fork() 
             if pid > 0:
@@ -56,12 +45,11 @@ class Daemon:
         si = file(self.stdin, 'r')
         so = file(self.stdout, 'a+')
         se = file(self.stderr, 'a+', 0)
-        #重定向标准输入/输出/错误
+
         os.dup2(si.fileno(), sys.stdin.fileno())
         os.dup2(so.fileno(), sys.stdout.fileno())
         os.dup2(se.fileno(), sys.stderr.fileno())
     
-        #注册程序退出时的函数，即删掉pid文件
         atexit.register(self.delpid)
         pid = str(os.getpid())
         file(self.pidfile,'w+').write("%s\n" % pid)
@@ -128,12 +116,10 @@ class Daemon:
         You should override this method when you subclass Daemon. It will be called after the process has been
         daemonized by start() or restart().
         """
-
+'''
 class MyDaemon(Daemon):
     def _run(self):
         while True:
-            f = open('/home/workfile', 'w+')
-            f.write("hello")
             time.sleep(1)
 
 if __name__ == "__main__":
@@ -152,4 +138,4 @@ if __name__ == "__main__":
     else:
         print "usage: %s start|stop|restart" % sys.argv[0]
         sys.exit(2)
-
+'''
