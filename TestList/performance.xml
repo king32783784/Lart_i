@@ -10,62 +10,17 @@
   </SuiteInformation>
   <Execute>
     <Test>Perf_kernel</Test>
-    <Arguments>'lmbench',iterations=3</Arguments>
+    <Perf_kernel>'lmbench',iterations=3</Perf_kernel>
     <Description>lmbench</Description>
   </Execute>
   <Execute>
     <Test>Perf_cpu</Test>
-    <Arguments>'sysbench', cpu_max_prime=[10000,20000,30000], test_type='cpu', runtimes=3, tag='cpu'</Arguments>
+    <Perf_cpu>'sysbench', cpu_max_prime=[10000,20000,30000], test_type='cpu', runtimes=3, tag='cpu'</Perf_cpu>
     <Description>sysbench</Description>
   </Execute>
   <Execute>
     <Test>Perf_mem</Test>
-    <Arguments>'sysbench', num_threads=[4,8], test_type='memory', block_size='4096',total_size='8G', runtimes=3, tag='cpu'</Arguments>
+    <Perf_mem>'sysbench', num_threads=[4,8], test_type='memory', block_size='4096',total_size='8G', runtimes=3, tag='cpu'</Perf_mem>
     <Description>sysbench</Description>
   </Execute>
-  <Execute>
-    <Test>Perf_thread</Test>
-    <Arguments>'sysbench', cpu_max_prime=[10000,20000,30000], test_type='cpu', runtimes=3, tag='cpu'</Arguments>
-    <Description>lmbench</Description>
-  </Execute>
-  <Execute>
-    <Test>Perf_io</Test>
-    <Arguments>'sysbench', cpu_max_prime=[10000,20000,30000], test_type='cpu', runtimes=3, tag='cpu'</Arguments>
-    <Description>lmbench</Description>
-  </Execute>
-  <Execute>
-    <Test>Perf_net</Test>
-    <Arguments>'sysbench', cpu_max_prime=[10000,20000,30000], test_type='cpu', runtimes=3, tag='cpu'</Arguments>
-    <Description>lmbench</Description>
-  </Execute>
-  <Execute>
-    <Test>Perf_os</Test>
-    <Arguments>'sysbench', cpu_max_prime=[10000,20000,30000], test_type='cpu', runtimes=3, tag='cpu'</Arguments>
-    <Description>lmbench</Description>
-  </Execute>
-  <Execute>
-    <Test>Perf_compression</Test>
-    <Arguments>'sysbench', cpu_max_prime=[10000,20000,30000], test_type='cpu', runtimes=3, tag='cpu'</Arguments>
-    <Description>lmbench</Description>
-  </Execute>
-  <Execute>
-    <Test>Perf_encoding</Test>
-    <Arguments>'sysbench', cpu_max_prime=[10000,20000,30000], test_type='cpu', runtimes=3, tag='cpu'</Arguments>
-    <Description>lmbench</Description>
-  </Execute>
-  <Execute>
-    <Test>Perf_graphics</Test>
-    <Arguments>'sysbench', cpu_max_prime=[10000,20000,30000], test_type='cpu', runtimes=3, tag='cpu'</Arguments>
-    <Description>lmbench</Description>
-  </Execute>
-  <Execute>
-    <Test>Perf_compiler</Test>
-    <Arguments>'sysbench', cpu_max_prime=[10000,20000,30000], test_type='cpu', runtimes=3, tag='cpu'</Arguments>
-    <Description>lmbench</Description>
-  </Execute>
-  <Execute>
-    <Test>Perf_browser</Test>
-    <Arguments>'sysbench', cpu_max_prime=[10000,20000,30000], test_type='cpu', runtimes=3, tag='cpu'</Arguments>
-    <Description>lmbench</Description>
-  </Execute>
-<Perftestsuite/>
+</Perftestsuite>
