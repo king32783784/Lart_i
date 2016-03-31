@@ -11,7 +11,7 @@
             <isourl>http://192.168.32.18/iso/</isourl>
             <!--isourl:"Specifies the network path ISO store,forexample"http://xxx.xxx.xxx.xxx/xxx" -->
         <configlist>checkfrequency</configlist>
-            <checkfrequency>60S</checkfrequency>
+            <checkfrequency>60</checkfrequency>
             <!--Y:year; m:month; d:day; H:hour; M:minute-->
             <!--checkfrequency:"Specify the frequency for query ISO change" -->
         <configlist>testtooldir</configlist>
