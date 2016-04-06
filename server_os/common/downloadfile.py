@@ -3,7 +3,7 @@ import urllib2
 import urllib
 
 
-def downLoadTestFile(local_dir, url):
+def downloadfile(local_dir, url):
     try:
         response = urllib2.urlopen(url)
         urllib.urlretrieve(url, local_dir)
