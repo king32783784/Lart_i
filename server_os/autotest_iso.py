@@ -13,7 +13,7 @@ from common.parsing_xml import Parsing_XML
 from common.initdaemon import Daemon
 from common.check_update import Check_Update
 from common.public import ReadPublicinfo
-
+from iso_install.server_autoinstall import reboot_testmachine
 
 class Iso_Install(Daemon, Check_Update):
     def __init__(self, isourl, checkfrequency):
@@ -25,7 +25,7 @@ class Iso_Install(Daemon, Check_Update):
     def isoinstall(self):
         gettestiso = Check_Update().isoname
         self.downloadiso()        
-
+        reboot_testmachine()
     def _run(self):
         firstiso = Check_Update().isoname
         self.isoinstall()
