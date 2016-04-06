@@ -17,21 +17,27 @@ from common.public import ReadPublicinfo
 
 class Iso_Install(Daemon, Check_Update):
     def __init__(self, isourl, checkfrequency):
-        # super(Check_iso_update, self).__init__()
         Daemon.__init__(self)
+        Check_Update.__init__(self)
         self.isourl = isourl
         self.checkfrequency = checkfrequency
 
+    def isoinstall(self):
+        gettestiso = Check_Update().isoname
+        self.downloadiso()        
+
     def _run(self):
-        TestType = "True"
-        while TestType == "True":
-            time.sleep(10)
-            TestTypea = "False"
+        firstiso = Check_Update().isoname
+        self.isoinstall()
+        while True:
+            gettestiso = Check_Update().isoname
+            if gettestiso > firstiso: 
+                self.isoinstall()
+            firstiso = gettestiso          
             time.sleep(int(self.checkfrequency[0]))
 
 if __name__ == "__main__":
     testxml = ReadPublicinfo()
-    print testxml.setupinfo
     daemon = Iso_Install(testxml.setupinfo['xml_dict']['isourl'],
                               testxml.setupinfo['xml_dict']
                               ['checkfrequency'])

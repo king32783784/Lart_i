@@ -3,12 +3,19 @@ import linecache
 import time
 from parsing_xml import Parsing_XML
 
+def testxmllocate():
+    homedir = os.popen('pwd').read().strip('\n')
+    local_xmlfile = os.path.join(homedir, 'setup.xml')
+    return local_xmlfile
+
 
 class ReadPublicinfo(Parsing_XML):
+    setupxml=testxmllocate()
+
     def __init__(self):
         self.osname = self.os_name()
+   #     self.xmllocate = self.testxmllocate()
         self.setupinfo = self.setup_info()
-        self.xmllocate = self.testxmllocate()
         
     def os_name(self):
         f = open('/etc/os-release', 'r')
@@ -28,14 +35,15 @@ u'isoserver', u'resultdir', u'comparingos', u'maillist']
 [u'default'], u'maillist': [u'peng.li@i-soft.com.cn'], u'isoserver':
 [u'/var/www/html/testiso/']}}
         '''
-        test_setup = Parsing_XML('../setup.xml', 'configlist')
+        test_setup = Parsing_XML(self.setupxml, 'configlist')
         test_setup_info = test_setup.specific_elements()
         return test_setup_info
 
-    def testxmllocate(self):
-        homedir = os.popen('pwd').read().strip('\n')
-        local_xmlfile = os.path.join(homedir, 'tmp/stability.xml')
-        return local_xmlfile
+#    def testxmllocate(self):
+#        homedir = os.popen('pwd').read().strip('\n')
+#        local_xmlfile = os.path.join(homedir, 'setup.xml')
+#        print local_xmlfile
+#        return local_xmlfile
 # TEST
-# a=ReadPublicinfo()
-# print a.setupinfo
+#a=ReadPublicinfo()
+#print a.setupinfo

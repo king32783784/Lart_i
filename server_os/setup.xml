@@ -8,7 +8,7 @@
     </basic>
     <common>
         <configlist>isourl</configlist>
-            <isourl>http://192.168.30.170/iso-images/</isourl>
+            <isourl>http://192.168.32.18/iso/</isourl>
             <!--isourl:"Specifies the network path ISO store,forexample"http://xxx.xxx.xxx.xxx/xxx" -->
         <configlist>checkfrequency</configlist>
             <checkfrequency>60</checkfrequency>
