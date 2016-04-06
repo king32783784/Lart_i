@@ -1,23 +1,23 @@
-
 import os
 '''
  Test dependent package setup
 '''
-class packet_install():
 
+
+class packet_install():
     def __init__(self,name):
         self.name=name
 
     def check_ostype(self):
-        with open('/etc/os-release','r') as f:
-            read_data=f.read()
+        with open('/etc/os-release', 'r') as f:
+            read_data = f.read()
             return read_data
-    
-    def check_tool(self,install_manager,packetlist):
-        packetlistkeys=packetlist.keys()
+
+    def check_tool(self, install_manager, packetlist):
+        packetlistkeys = packetlist.keys()
         for keys in packetlistkeys:
-            install_cmd=install_manager + ' ' + 'install -y' + ' ' + packetlist[keys] + '>/dev/null 2>&1'  
-            return_value=os.system('which %s >/dev/null 2>&1' %keys)
+            install_cmd = install_manager + ' ' + 'install -y' + ' ' + packetlist[keys] + '>/dev/null 2>&1'  
+            return_value = os.system('which %s >/dev/null 2>&1' %keys)
             if return_value == 0:
                 pass
             else:

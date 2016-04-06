@@ -1,18 +1,18 @@
 #!/usr/bin/env python
-#coding=utf8
+# coding=utf8
 '''Name:Isoft Desktop Autotest Tool
    Author:peng.li@i-soft.com.cn
    Time:20160120
 '''
-
-import os,sys,time
+import os
+import sys
+import time
 from checkid import checkupdateID
 from downloadfile import downLoadTestFile
 from analyticalxml import Analyticaltestlist
 from testtool import testtool_extrac
 from starttest.perf_test import perf_test
 from result_process.Perfresult_process import Perf_result_process
-
 System_order='/var/cache'
 Test_order='Isoft-desktop-autotest'
 TestXml_dladdress='http://192.168.32.18/4.0'

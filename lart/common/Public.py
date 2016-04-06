@@ -1,5 +1,8 @@
-import os,linecache,time
+import os
+import linecache
+import time
 from checkid import checkupdateID
+
 
 def os_name():
     f=open('/etc/os-release','r')
