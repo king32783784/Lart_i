@@ -13,7 +13,7 @@ server端实现内容：
 2）测试机状态查询：
    1.安装前查询client端是否ready v 
    
-3）启动测试机自动安装:
+3) 启动测试机自动安装:（独立进程）
    1.挂载测试Iso v 
    2.自动启动client端进行安装 v
    3.安装后关闭dhcp服务器： 
@@ -30,7 +30,7 @@ server端实现内容：
    4.实现完成后下载client测试程序 *1
    5.实现client端登陆后，自动启动client程序 *2
 
-*1：或通过server端控制client端实现
-*2: 或通过server端控制client端实现
+*1：或通过server端控制client端实现，加入3
+*2: 或通过server端控制client端实现.加入3
 
    

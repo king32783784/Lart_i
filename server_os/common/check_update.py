@@ -14,7 +14,7 @@ class Check_Update(ReadPublicinfo):
     def get_htmlcontent(self, xmlurl, remode):
         try:
             html_Context = urllib2.urlopen(xmlurl).read()
-        #    print html_Context
+            print html_Context
         except urllib2.HTTPError:
             print "ok"  # need report this error  to tester by mail
         html_Context = unicode(html_Context, 'utf-8')
@@ -24,6 +24,7 @@ class Check_Update(ReadPublicinfo):
         xmlurl = self.setup['xml_dict']['isourl'][0]
         remode = "href=\"(.+).iso\">"
         targetiso = self.get_htmlcontent(xmlurl, remode)
+        print targetiso
         if len(targetiso) == 1:
             return targetiso[0] + '.iso'
         elif len(targetiso) < 1:
@@ -59,23 +60,8 @@ class Check_Update(ReadPublicinfo):
             return "no"
 
     def mountiso(self):
-        mountstatus = os.system('mount -t iso9660 -o loop
-                                /var/www/html/testiso/%s /var/www/html/
-                                testingiso/' % self.isoname)
+        cmds='mount -t iso9660 -o loop /var/www/html/testiso/%s /var/www/html/testingiso' % self.isoname 
+        mountstatus = os.system('%s' % cmds)
         if mountstatus != 0:
             print 'mount testiso faild,please chech it'  # need to mail
         
-'''
-def test(url):
-    try:
-        html_Context = urllib2.urlopen(url).read()
-    except urllib2.HTTPError:
-        print "ok"
-    html_Context = unicode(html_Context, 'utf-8')
-    targetiso = re.findall(r"href=\"(.+).iso\">", html_Context)
-    if len(targetiso) != 0:
-        print targetiso
-    else:
-        print "no iso"
-test("http://192.168.32.18/4.0/")
-'''
