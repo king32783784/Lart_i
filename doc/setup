@@ -1,0 +1,15 @@
+1.测试需要两台机器，1台作为server端，1台做为client端
+server端：
+    存放测试工具
+    存放待测ISO，并作为ISO服务器
+    控制client端
+    运行ISO检查daemon
+server端设置
+    安装ssh
+    搭建http服务器
+    搭建dhcp服务器
+    设置ks文件：设置client静态IP，client端ssh自动启动，允许root登陆，默认账户test，密码abc123, 设置系统自动启动
+    
+client端：
+    运行iso回归测试daemon
+    

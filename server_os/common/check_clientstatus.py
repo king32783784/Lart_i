@@ -8,7 +8,7 @@ from server_client import Server_Client
 
 
 class Check_Clientstatus(Server_Client):
-    def _login(self):
+    def _scpfile(self):
         try:
             log = 'Are you sure you want to continue connecting (yes/no)? '
             scpfile = pexpect.spawn('scp root@%s:/tmp/client_status .'
@@ -28,18 +28,20 @@ class Check_Clientstatus(Server_Client):
                 scpfile.interact()
         except pexpect.EOF:
             print 'check client_status error'
-   
+ 
     def checkstatus(self):
-        self._login()
+        self._scpfile()
         thestatus = linecache.getline("client_status", 1).strip('\n')
         os.system('rm -rf client_status')
         if thestatus == 'locked':
             return "unready"
         else:
             return "ready"
-
+    def checkinstallstatus(self):
+        pass
+'''
+testcase:
 tests = Check_Clientstatus('192.168.32.46', '')
 a = tests.checkstatus()
 print a
-
-        
+'''

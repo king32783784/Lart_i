@@ -13,10 +13,10 @@ from common.parsing_xml import Parsing_XML
 from common.initdaemon import Daemon
 from common.check_update import Check_Update
 from common.public import ReadPublicinfo
-from iso_install.server_autoinstall import Server_Client
+from common.check_clientstatus import Check_Clientstatus
 
 
-class Iso_Install(Daemon, Check_Update, Server_Client):
+class Iso_Install(Daemon, Check_Update, Check_Clientstatus):
     def __init__(self, setupinfo):
         Daemon.__init__(self)
         Check_Update.__init__(self)
@@ -27,15 +27,18 @@ class Iso_Install(Daemon, Check_Update, Server_Client):
     def isoinstall(self):
         gettestiso = Check_Update().isoname
         self.downloadiso()        
-        reboot = Server_Client(self.clientip[0])
-        reboot._login()
+        client_do = Check_Clientstatus(self.clientip[0], ' ')
+        clientstatus = client_do.checkstatus() 
+        if clientstatus == 'ready':
+            client_do._login()
+         
 
     def _run(self):
-        print 'hello'
         firstiso = Check_Update().isoname
         self.isoinstall()
         while True:
             gettestiso = Check_Update().isoname
+            print "check over"
             if gettestiso > firstiso: 
                 self.isoinstall()
             firstiso = gettestiso          
