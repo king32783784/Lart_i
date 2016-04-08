@@ -7,6 +7,9 @@
         <osver>4.0</osver>
     </basic>
     <common>
+        <configlist>clientip</configlist>
+            <clientip>192.168.32.254</clientip>
+            <!--clientip:The test machine's ip-->
         <configlist>isourl</configlist>
             <isourl>http://192.168.32.18/iso/</isourl>
             <!--isourl:"Specifies the network path ISO store,forexample"http://xxx.xxx.xxx.xxx/xxx" -->

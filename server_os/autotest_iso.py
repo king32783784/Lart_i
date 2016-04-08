@@ -13,20 +13,25 @@ from common.parsing_xml import Parsing_XML
 from common.initdaemon import Daemon
 from common.check_update import Check_Update
 from common.public import ReadPublicinfo
-from iso_install.server_autoinstall import reboot_testmachine
+from iso_install.server_autoinstall import Server_Client
 
-class Iso_Install(Daemon, Check_Update):
-    def __init__(self, isourl, checkfrequency):
+
+class Iso_Install(Daemon, Check_Update, Server_Client):
+    def __init__(self, setupinfo):
         Daemon.__init__(self)
         Check_Update.__init__(self)
-        self.isourl = isourl
-        self.checkfrequency = checkfrequency
+        self.isourl = setupinfo['xml_dict']['isourl']
+        self.checkfrequency = setupinfo['xml_dict']['checkfrequency']
+        self.clientip = setupinfo['xml_dict']['clientip']
 
     def isoinstall(self):
         gettestiso = Check_Update().isoname
         self.downloadiso()        
-        reboot_testmachine()
+        reboot = Server_Client(self.clientip[0])
+        reboot._login()
+
     def _run(self):
+        print 'hello'
         firstiso = Check_Update().isoname
         self.isoinstall()
         while True:
@@ -38,9 +43,9 @@ class Iso_Install(Daemon, Check_Update):
 
 if __name__ == "__main__":
     testxml = ReadPublicinfo()
-    daemon = Iso_Install(testxml.setupinfo['xml_dict']['isourl'],
-                              testxml.setupinfo['xml_dict']
-                              ['checkfrequency'])
+    setupinfo = testxml.setupinfo
+    print setupinfo
+    daemon = Iso_Install(setupinfo)
     if len(sys.argv) == 2:
         if 'start' == sys.argv[1]:
             daemon.start()

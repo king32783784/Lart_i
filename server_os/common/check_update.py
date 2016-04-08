@@ -57,10 +57,8 @@ class Check_Update(ReadPublicinfo):
             return "yes"
         else:
             return "no"
-'''
-test=Check_Update()
-test.downloadiso()
-'''
+
+
 '''
 def test(url):
     try:
