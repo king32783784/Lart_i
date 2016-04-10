@@ -5,52 +5,14 @@
    Author:peng.li@i-soft.com.cn
    Time:20160330
 '''
-import os
-import sys
-import time
-import datetime
-from collections import deque
-from common.parsing_xml import Parsing_XML
-from common.initdaemon import Daemon
-from common.check_update import Check_Update
+from common.control import *
 from common.public import ReadPublicinfo
-from common.check_clientstatus import Check_Clientstatus
 
-
-class Iso_Check(Daemon, Check_Update, Check_Clientstatus):
-    def __init__(self, setupinfo):
-        Daemon.__init__(self)
-        Check_Update.__init__(self)
-        self.isourl = setupinfo['xml_dict']['isourl']
-        self.checkfrequency = setupinfo['xml_dict']['checkfrequency']
-        self.clientip = setupinfo['xml_dict']['clientip']
-
-    def isoinstall(self):
-        gettestiso = Check_Update().isoname
-        self.downloadiso()
-        client_do = Check_Clientstatus(self.clientip[0], ' ')
-        clientstatus = client_do.checkstatus()
-        if clientstatus == 'ready':
-            client_do._login()
-
-    def _run(self):
-        firstiso = Check_Update().isoname
-        print firstiso
-        isoqueue = deque(['%s' % firstiso])
-        while True:
-            gettestiso = Check_Update().isoname
-            print gettestiso
-            if gettestiso > firstiso:
-                isoqueue.append("%s" % gettestiso)
-            firstiso = gettestiso
-            print isoqueue
-            time.sleep(int(self.checkfrequency[0]))
 
 if __name__ == "__main__":
     testxml = ReadPublicinfo()
     setupinfo = testxml.setupinfo
-    print setupinfo
-    daemon = Iso_Check(setupinfo)
+    daemon = Main(setupinfo)
     if len(sys.argv) == 2:
         if 'start' == sys.argv[1]:
             daemon.start()

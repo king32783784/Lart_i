@@ -36,21 +36,21 @@ class Check_Update(ReadPublicinfo):
                     getiso = iso
             return getiso + '.iso'
 
-    def getisomd5(self):
+    def getisomd5(self, testiso):
         xmlurl = os.path.join(self.setup['xml_dict']['isourl'][0],
-                              self.isoname) + '.md5sum'
+                              testiso) + '.md5sum'
         remode = "(.+)"
         targetmd5 = self.get_htmlcontent(xmlurl, remode)
         return targetmd5[0]
 
-    def downloadiso(self):
-        remode = "href=\"(.+).iso\">"
-        isoname = self.get_htmlcontent(self.setup['xml_dict']['isourl'][0],
-                                       remode)
+    def downloadiso(self, testiso):
+     #   remode = "href=\"(.+).iso\">"
+     #   isoname = self.get_htmlcontent(self.setup['xml_dict']['isourl'][0],
+     #                                  remode)
         locatedir = os.path.join(self.setup['xml_dict']['isoserver'][0],
-                                 self.isoname)
+                                 testiso)
         isourl = os.path.join(self.setup['xml_dict']['isourl'][0],
-                              self.isoname)
+                              testiso)
         downloadfile(locatedir, isourl)
         filemd5 = os.popen('md5sum %s' % locatedir).read()
         md5standard = self.getisomd5()
