@@ -10,7 +10,7 @@ from check_update import Check_Update
 from public import ReadPublicinfo
 from check_clientstatus import Check_Clientstatus
 from server_client import Server_Client
-
+from startclient import ClientStart
 
 class ClientCheck(multiprocessing.Process, Check_Clientstatus):
     def __init__(self, totalclients, readyclients):
@@ -43,22 +43,6 @@ class IsoCheck(multiprocessing.Process, Check_Update):
                 self.dotestisos.put(gettestiso)
             firstiso = gettestiso
             time.sleep(300)
-
-
-class ClientStart(multiprocessing.Process, Server_Client):
-    def __init__(self, runclient, testiso):
-        multiprocessing.Process.__init__(self)
-        self.runclient = runclient
-        self.testiso = testiso
-
-    def isoinstall(self):
-        print "%s start install" % self.runclient
-        client_run = Server_Client(self.runclient)
-        client_run._reboot()
-
-    def run(self):
-        self.isoinstall()
-        time.sleep(120)
 
 
 class TestControl(multiprocessing.Process):

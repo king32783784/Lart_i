@@ -54,8 +54,8 @@ class Check_Update(ReadPublicinfo):
         else:
             return "no"
 
-    def mountiso(self):
-        cmds = 'mount -t iso9660 -o loop /var/www/html/testiso/%s /var/www/html/testingiso' % self.isoname
+    def mountiso(self, testiso):
+        cmds = 'mount -t iso9660 -o loop /var/www/html/testiso/%s /var/www/html/testingiso' % testiso
         mountstatus = os.system('%s' % cmds)
         if mountstatus != 0:
             print 'mount testiso faild,please chech it'  # need to mail

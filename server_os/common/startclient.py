@@ -1,9 +1,46 @@
 import multiprocessing
 import time
+import os
+from check_update import Check_Update
 from server_client import Server_Client
+from downloadfile import downloadfile
 
-def testiso_install(testclientip='xxx.xxx.xxx.xxx', do_args='args'):
-    testisoinstall = Server_Client(testclientip, do_args)
-
+class ClientStart(multiprocessing.Process, Server_Client, Check_update):
+    def __init__(self, runclient, testiso):
+        multiprocessing.Process.__init__(self)
+        Check_Update.__init__(self)
+        self.runclient = runclient
+        self.testiso = testiso
     
-       
+    def set_kstart(self):
+        pass
+    
+    def checkcleintinstalld(self):
+        pass
+
+    def setserverdchp(self):
+        pass
+    
+    def allowclientrestart(self):
+        pass
+
+    def checkclientlogin(self):
+        pass
+
+    def clientstart(self):
+        pass
+
+    def clientmonitoring(self):
+        pass
+  
+    def isoinstall(self):
+        self.downloadiso(self.testiso)
+        self.mountiso(self.testiso) 
+        self.set_kstart()
+        client_run = Server_Client(self.runclient)
+        client_run._reboot()
+
+    def run(self):
+        self.isoinstall()
+        time.sleep(120)             
+        
