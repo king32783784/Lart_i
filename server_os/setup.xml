@@ -9,10 +9,10 @@
     <common>
         <configlist>clientip</configlist>
             <clientip>192.168.32.46</clientip>
-            <clientip>192.168.32.47</clientip>
+            <clientip>192.168.32.252</clientip>
             <!--clientip:The test machine's ip-->
         <configlist>isourl</configlist>
-            <isourl>http://192.168.163.130/testiso/</isourl>
+            <isourl>http://192.168.32.18/testiso/</isourl>
             <!--isourl:"Specifies the network path ISO store,forexample"http://xxx.xxx.xxx.xxx/xxx" -->
         <configlist>checkfrequency</configlist>
             <checkfrequency>120</checkfrequency>

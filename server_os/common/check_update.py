@@ -14,7 +14,6 @@ class Check_Update(ReadPublicinfo):
     def get_htmlcontent(self, xmlurl, remode):
         try:
             html_Context = urllib2.urlopen(xmlurl).read()
-            print html_Context
         except urllib2.HTTPError:
             print "ok"  # need report this error  to tester by mail
         html_Context = unicode(html_Context, 'utf-8')
@@ -24,7 +23,6 @@ class Check_Update(ReadPublicinfo):
         xmlurl = self.setup['xml_dict']['isourl'][0]
         remode = "href=\"(.+).iso\">"
         targetiso = self.get_htmlcontent(xmlurl, remode)
-        print targetiso
         if len(targetiso) == 1:
             return targetiso[0] + '.iso'
         elif len(targetiso) < 1:
@@ -44,9 +42,6 @@ class Check_Update(ReadPublicinfo):
         return targetmd5[0]
 
     def downloadiso(self, testiso):
-     #   remode = "href=\"(.+).iso\">"
-     #   isoname = self.get_htmlcontent(self.setup['xml_dict']['isourl'][0],
-     #                                  remode)
         locatedir = os.path.join(self.setup['xml_dict']['isoserver'][0],
                                  testiso)
         isourl = os.path.join(self.setup['xml_dict']['isourl'][0],
@@ -60,8 +55,7 @@ class Check_Update(ReadPublicinfo):
             return "no"
 
     def mountiso(self):
-        cmds='mount -t iso9660 -o loop /var/www/html/testiso/%s /var/www/html/testingiso' % self.isoname 
+        cmds = 'mount -t iso9660 -o loop /var/www/html/testiso/%s /var/www/html/testingiso' % self.isoname
         mountstatus = os.system('%s' % cmds)
         if mountstatus != 0:
             print 'mount testiso faild,please chech it'  # need to mail
-        

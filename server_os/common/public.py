@@ -3,6 +3,7 @@ import linecache
 import time
 from parsing_xml import Parsing_XML
 
+
 def testxmllocate():
     homedir = os.popen('pwd').read().strip('\n')
     local_xmlfile = os.path.join(homedir, 'setup.xml')
@@ -10,13 +11,12 @@ def testxmllocate():
 
 
 class ReadPublicinfo(Parsing_XML):
-    setupxml=testxmllocate()
+    setupxml = testxmllocate()
 
     def __init__(self):
         self.osname = self.os_name()
-   #     self.xmllocate = self.testxmllocate()
         self.setupinfo = self.setup_info()
-        
+
     def os_name(self):
         f = open('/etc/os-release', 'r')
         theline = linecache.getline("/etc/os-release", 5)
@@ -45,5 +45,5 @@ u'isoserver', u'resultdir', u'comparingos', u'maillist']
 #        print local_xmlfile
 #        return local_xmlfile
 # TEST
-#a=ReadPublicinfo()
-#print a.setupinfo
+# a=ReadPublicinfo()
+# print a.setupinfo

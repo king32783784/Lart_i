@@ -21,7 +21,7 @@ class ClientCheck(multiprocessing.Process, Check_Clientstatus):
     def run(self):
         while True:
             for checkip in self.totalclients:
-                client_do = Check_Clientstatus(checkip, ' ')
+                client_do = Check_Clientstatus(checkip)
                 clientstatus = client_do.checkstatus()
                 if clientstatus == 'ready':
                     self.readyclients.put(checkip)
@@ -30,29 +30,31 @@ class ClientCheck(multiprocessing.Process, Check_Clientstatus):
 
 class IsoCheck(multiprocessing.Process, Check_Update):
     def __init__(self, dotestisos):
-        self.dotestisos = isotestisos
+        self.dotestisos = dotestisos
         multiprocessing.Process.__init__(self)
         Check_Update.__init__(self)
 
     def run(self):
-        firtiso = Check_Update().isoname
+        firstiso = Check_Update().isoname
         self.dotestisos.put(firstiso)
         while True:
             gettestiso = Check_Update().isoname
             if gettestiso > firstiso:
                 self.dotestisos.put(gettestiso)
-            time.sleep(60)
+            firstiso = gettestiso
+            time.sleep(300)
 
 
-class ClintStart(multiprocessing.Process, Server_Client):
+class ClientStart(multiprocessing.Process, Server_Client):
     def __init__(self, runclient, testiso):
         multiprocessing.Process.__init__(self)
         self.runclient = runclient
         self.testiso = testiso
 
     def isoinstall(self):
-        client_run = server_Client(self.runclient, 'reboot')
-        client_run._login()
+        print "%s start install" % self.runclient
+        client_run = Server_Client(self.runclient)
+        client_run._reboot()
 
     def run(self):
         self.isoinstall()
@@ -60,18 +62,19 @@ class ClintStart(multiprocessing.Process, Server_Client):
 
 
 class TestControl(multiprocessing.Process):
-    def __init__(self, readclients, dotestisos):
+    def __init__(self, readyclients, dotestisos):
         multiprocessing.Process.__init__(self)
-        slef.readyclients = readyclients
+        self.readyclients = readyclients
         self.dotestisos = dotestisos
 
     def run(self):
         while True:
             testiso = self.dotestisos.get()
-            testclient = self.readyclient.get()
+            testclient = self.readyclients.get()
             starttestlist = []
-            startclient = ClientStart(testiso, testclient)
+            startclient = ClientStart(testclient, testiso)
             starttestlist.append(startclient)
+            print testclient, testiso
             startclient.start()
             file('/tmp/daemon.pid', 'a+').write("%s\n" % startclient.pid)
             for startclient in starttestlist:
@@ -96,7 +99,7 @@ class Main(Daemon, IsoCheck, ClientCheck, TestControl):
         controllist.append(control)
         control.start()
         file('/tmp/daemon.pid', 'a+').write("%s\n" % control.pid)
-        control = TestConrtol(readyclients, dotestisos)
+        control = TestControl(readyclients, dotestisos)
         controllist.append(control)
         control.start()
         file('/tmp/daemon.pid', 'a+').write("%s\n" % control.pid)

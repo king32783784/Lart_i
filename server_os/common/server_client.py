@@ -3,33 +3,41 @@ import pexpect
 
 
 class Server_Client():
-    def __init__(self, clientip, args):
+    def __init__(self, clientip):
         self.ip = clientip
-        self.args = args
 
-    def _login(self):
+    def _ssh(self, cmd, args):
+        ssh_newkey = 'Are you sure you want to continue connecting (yes/no)?'
         try:
-            log = 'Are you sure you want to continue connecting (yes/no)? '
-            clientlogin = pexpect.spawn('ssh root@%s' % self.ip)
-            index = clientlogin.expect(['%s' % log, ':'], timeout=3)
+            clientlogin = pexpect.spawn('%s' % cmd)
+            index = clientlogin.expect([pexpect.TIMEOUT, ssh_newkey,
+                                        'password: '], timeout=3)
+            print index
             if index == 0:
-                print "ssh %s error" % self.ip
+                print "error"
+                print "%s can not login. Here is what SSH said:" % self.ip
+                print clientlogin.before, clientlogin.after
             if index == 1:
                 clientlogin.sendline('yes')
-                clientlogin.expect('.')
-                clientlogin.sendline('')
-                clientlogin.expect(':')
+                clientlogin.expect('password: ')
                 clientlogin.sendline('abc123')
-                clientlogin.sendline('%s' % self.args)
+                clientlogin.sendline('%s' % args)
                 clientlogin.interact()
             if index == 2:
-                client.sendline('abc123')
-                client.sendline('%s' % self.args)
+                clientlogin.sendline('abc123')
+                clientlogin.sendline('%s' % args)
                 clientlogin.interact()
-        except pexpect.EOF:
-            print "ssh %s error" % self.ip
-'''
-testcase:
-testa = Server_Client('192.168.32.64')
-testa._login()
-'''
+        except (pexpect.exceptions.TIMEOUT, pexpect.exceptions.EOF):
+            print "ssh %s timeout" % self.ip
+
+    def _reboot(self):
+        cmd = "ssh root@%s" % self.ip
+        self._ssh(cmd, 'reboot')
+
+    def _scpfile(self):
+        cmd = "scp root@%s:/tmp/client_status ." % self.ip
+        self._ssh(cmd, ' ')
+
+
+# testa = Server_Client('192.168.32.46')
+# testa._reboot()
