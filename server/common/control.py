@@ -12,23 +12,11 @@ from check_clientstatus import Check_Clientstatus
 from server_client import Server_Client
 from startclient import ClientStart
 
-class ClientCheck(multiprocessing.Process, Check_Clientstatus):
-    def __init__(self, totalclients, readyclients):
-        multiprocessing.Process.__init__(self)
-        self.totalclients = totalclients
-        self.readyclients = readyclients
-
-    def run(self):
-        while True:
-            for checkip in self.totalclients:
-                client_do = Check_Clientstatus(checkip)
-                clientstatus = client_do.checkstatus()
-                if clientstatus == 'ready':
-                    self.readyclients.put(checkip)
-            time.sleep(30)
-
 
 class IsoCheck(multiprocessing.Process, Check_Update):
+    '''
+       Check whether there is a need to test ISO
+    '''
     def __init__(self, dotestisos):
         self.dotestisos = dotestisos
         multiprocessing.Process.__init__(self)
@@ -46,50 +34,68 @@ class IsoCheck(multiprocessing.Process, Check_Update):
 
 
 class TestControl(multiprocessing.Process):
-    def __init__(self, readyclients, dotestisos):
+    '''
+      For the client to invoke the control
+    '''
+    def __init__(self, dotestisos, totalclients):
         multiprocessing.Process.__init__(self)
-        self.readyclients = readyclients
         self.dotestisos = dotestisos
+        self.totalclients = totalclients
 
-    def _checkclientstatus(self):
-        pass
-  
+    def _checkserverstatus(self, server_status):
+        '''
+         Query server is available or not
+        '''
+        while True:
+            try:
+                server_status.get(block=False)
+                break
+            except:
+                time.sleep(3)
+
+    def _checkclient(self):
+        '''
+           Query whether there is available to the client
+        '''
+        while True:
+            for checkip in self.totalclients:
+                client_do = Check_Clientstatus(checkip)
+                clientstatus = client_do.checkstatus()
+                if clientstatus == 'ready':
+                    availableclient = checkip
+                    break
+            time.sleep(3)
+        return availableclient
+
     def run(self):
-        serverstatus = multprocessing.JoinableQueue()
+        serverstatus = multprocessing.Queue()
         serverstatus.put('True')
         while True:
+            self._checkserverstatus(serverstatus)
+            testclient = self._checkclient()
             testiso = self.dotestisos.get()
-            testclient = self.readyclients.get()
-            server_status = serverstatus.get()
-          #  starttestlist = []
-            startclient = ClientStart(testclient, testiso, server_status, serverstatus)
-         #   starttestlist.append(startclient)
-         #   print testclient, testiso
+            startclient = ClientStart(testclient, testiso, serverstatus)
             startclient.start()
-       #     file('/tmp/daemon.pid', 'a+').write("%s\n" % startclient.pid)
-       #     for startclient in starttestlist:
             startclient.join()
             time.sleep(30)
 
 
-class Main(Daemon, IsoCheck, ClientCheck, TestControl):
+class Main(Daemon, IsoCheck, TestControl):
+    '''
+    Start ISO queries and client control
+    '''
     def __init__(self, setupinfo):
         Daemon.__init__(self)
         self.totalclients = setupinfo['xml_dict']['clientip']
 
     def _run(self):
- #       readyclients = multiprocessing.JoinableQueue()
         dotestisos = multiprocessing.JoinableQueue()
         controllist = []
         control = IsoCheck(dotestisos)
         controllist.append(control)
         control.start()
         file('/tmp/daemon.pid', 'a+').write("%s\n" % control.pid)
- #       control = ClientCheck(self.totalclients, readyclients)
- #       controllist.append(control)
- #       control.start()
- #       file('/tmp/daemon.pid', 'a+').write("%s\n" % control.pid)
-        control = TestControl(readyclients, dotestisos)
+        control = TestControl(dotestisos, self.totalclients)
         controllist.append(control)
         control.start()
         file('/tmp/daemon.pid', 'a+').write("%s\n" % control.pid)
