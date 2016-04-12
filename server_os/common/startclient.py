@@ -59,10 +59,14 @@ class ClientStart(multiprocessing.Process, Check_Clientstatus, Check_Update):
 
     def run(self):
         self.isoinstall()
+        self.allowclientrestart()
+        self.checkclientlogin()
+        self.clientstart()
+        self.clientmonitoring()
         time.sleep(120)   
           
 # test case
 # 1
-test = ClientStart('192.168.32.46', 'iso1')
-a = test.checkclientinstalld()
-print a
+#est = ClientStart('192.168.32.46', 'iso1')
+#a = test.checkclientinstalld()
+#print a

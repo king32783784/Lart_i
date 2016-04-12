@@ -51,6 +51,9 @@ class TestControl(multiprocessing.Process):
         self.readyclients = readyclients
         self.dotestisos = dotestisos
 
+    def _checkclientstatus(self):
+        pass
+  
     def run(self):
         while True:
             testiso = self.dotestisos.get()

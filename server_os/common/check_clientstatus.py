@@ -11,7 +11,7 @@ class Check_Clientstatus(Server_Client):
     def checkstatus(self):
         self._scpfile(self.ip, "/tmp/client_status")
         thestatus = linecache.getline("client_status", 1).strip('\n')
-        os.system('rm -rf client_status')
+        os.remove('client_status')
         if thestatus == 'locked':
             return "unready"
         else:
@@ -20,7 +20,6 @@ class Check_Clientstatus(Server_Client):
     def checkinstallstatus(self):
         self._scpfile(self.ip, "tmp/client_status")
         thestatus = linecache.getline("client_staus", 2).strip('\n')
-        os.system('rm -rf client_status')
         if thestatus == 'ready':
             return "ready"
         else:
