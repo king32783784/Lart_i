@@ -4,9 +4,9 @@ import os
 from check_update import Check_Update
 from server_client import Server_Client
 from downloadfile import downloadfile
+from check_clientstatus import Check_Clientstatus
 
-
-class ClientStart(multiprocessing.Process, Server_Client, Check_Update):
+class ClientStart(multiprocessing.Process, Check_Clientstatus, Check_Update):
     def __init__(self, runclient, testiso):
         multiprocessing.Process.__init__(self)
         Check_Update.__init__(self)
@@ -16,20 +16,33 @@ class ClientStart(multiprocessing.Process, Server_Client, Check_Update):
     def set_kstart(self):
         pass
     
-    def checkcleintinstalld(self):
-        pass
+    def allowclientrestart(self):
+        while True:
+             try:
+                 open("/tmp/installed", 'r')
+                 self.setserverdhcp("stop")
+                 open("/tmp/allowrestart", 'w')
+                 break
+             except IOError:
+                 pass
+             time.sleep(10)
 
-    def setserverdchp(self, cmdtype):
-        if cmdtype == "enable":
+    def setserverdhcp(self, cmdtype):
+        if cmdtype == "start":
             os.system('systemctl start dhcpd')
-        elif cmdtype == "disable":
+        elif cmdtype == "stop":
             os.system('systemctl enable dhcpd')
     
-    def allowclientrestart(self):
-        
-
     def checkclientlogin(self):
-        pass
+        while True:
+            clientlogin = self.checkinstallstatus()
+            if clientlogin == 'ready':
+                os.remove("/tmp/installed")
+                os.renove("/tmp/allowrestart")
+                self.setserverdhcp("start")
+                break 
+            else:
+                time.sleep(60)              
 
     def clientstart(self):
         pass
@@ -46,5 +59,10 @@ class ClientStart(multiprocessing.Process, Server_Client, Check_Update):
 
     def run(self):
         self.isoinstall()
-        time.sleep(120)             
-        
+        time.sleep(120)   
+          
+# test case
+# 1
+test = ClientStart('192.168.32.46', 'iso1')
+a = test.checkclientinstalld()
+print a

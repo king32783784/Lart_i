@@ -34,8 +34,8 @@ class Server_Client():
         cmd = "ssh root@%s" % self.ip
         self._ssh(cmd, 'reboot')
 
-    def _scpfile(self):
-        cmd = "scp root@%s:/tmp/client_status ." % self.ip
+    def _scpfile(self, clientip,  remotefile):
+        cmd = "scp root@%s:%s ." % (clientip, remotefile)
         self._ssh(cmd, ' ')
 
 
