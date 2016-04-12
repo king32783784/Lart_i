@@ -78,17 +78,17 @@ class Main(Daemon, IsoCheck, ClientCheck, TestControl):
         self.totalclients = setupinfo['xml_dict']['clientip']
 
     def _run(self):
-        readyclients = multiprocessing.JoinableQueue()
+ #       readyclients = multiprocessing.JoinableQueue()
         dotestisos = multiprocessing.JoinableQueue()
         controllist = []
         control = IsoCheck(dotestisos)
         controllist.append(control)
         control.start()
         file('/tmp/daemon.pid', 'a+').write("%s\n" % control.pid)
-        control = ClientCheck(self.totalclients, readyclients)
-        controllist.append(control)
-        control.start()
-        file('/tmp/daemon.pid', 'a+').write("%s\n" % control.pid)
+ #       control = ClientCheck(self.totalclients, readyclients)
+ #       controllist.append(control)
+ #       control.start()
+ #       file('/tmp/daemon.pid', 'a+').write("%s\n" % control.pid)
         control = TestControl(readyclients, dotestisos)
         controllist.append(control)
         control.start()

@@ -7,11 +7,15 @@
         <osver>4.0</osver>
     </basic>
     <common>
+        <configlist>clientip</configlist>
+            <clientip>192.168.32.46</clientip>
+            <clientip>192.168.32.252</clientip>
+            <!--clientip:The test machine's ip-->
         <configlist>isourl</configlist>
-            <isourl>http://192.168.32.18/iso/</isourl>
+            <isourl>http://192.168.32.18/testiso/</isourl>
             <!--isourl:"Specifies the network path ISO store,forexample"http://xxx.xxx.xxx.xxx/xxx" -->
         <configlist>checkfrequency</configlist>
-            <checkfrequency>60</checkfrequency>
+            <checkfrequency>120</checkfrequency>
             <!--Y:year; m:month; d:day; H:hour; M:minute-->
             <!--checkfrequency:"Specify the frequency for query ISO change" -->
         <configlist>testtooldir</configlist>
