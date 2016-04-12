@@ -1,0 +1,92 @@
+#platform=x86, AMD64, or Intel EM64T
+# System authorization information
+auth  --useshadow  --enablemd5
+# System bootloader configuration
+bootloader --append="rhgb quiet" --location=mbr --driveorder=sda
+# Clear the Master Boot Record
+zerombr
+# Partition clearing information
+clearpart --all --initlabel
+# Use graphical install
+graphical
+# Firewall configuration
+firewall --disabled
+# Run the Setup Agent on first boot
+firstboot --disable
+# System keyboard
+keyboard --vckeymap=us --xlayouts='us'
+# System language
+lang zh_CN.UTF-8
+# Installation logging level
+logging --level=info
+# Use network installation
+url --url=http://192.168.32.57/os
+# Network information
+#network --bootproto=dhcp --device=eth0 --onboot=on
+network --device=ens5 --activate --bootproto=static --ip=192.168.32.254 --netmask=255.255.255.0 --gateway=192.168.32.1 --nameserver=192.168.10.11
+# Reboot after installation
+reboot
+#Root password
+rootpw abc123
+user --name=test --groups=wheel --password=abc123 --homedir=/home/test/ --gecos="test"
+
+# SELinux configuration
+selinux --disabled
+# System timezone
+timezone  Asia/Shanghai --isUtc
+# Install OS instead of upgrade
+install
+# X Window System configuration information
+xconfig --startxonboot
+# Disk partitioning information
+part /boot --asprimary --fstype="ext3" --size=200
+part / --asprimary --fstype="ext3" --size=30000
+
+%packages
+@base
+@core
+@desktop-debugging
+@dial-up
+@directory-client
+@fonts
+@gnome-desktop
+@guest-agents
+@guest-desktop-agents
+@input-methods
+@internet-browser
+@java-platform
+@multimedia
+@network-file-system-client
+@networkmanager-submodules
+@print-client
+@x11
+expect
+%end
+
+%post
+
+sed -i '/daemon/a\AutomaticLoginEnable=true' /etc/gdm/custom.conf
+
+sed -i '/AutomaticLoginEnable/a\AutomaticLogin=test' /etc/gdm/custom.conf
+
+echo The iSoft Server OS Installation finished! > /home/test/install.log
+
+%end
+
+%post --interpreter=/usr/bin/expect
+
+set timeout -1
+spawn scp /home/test/install.log root@192.168.32.57:/home/test
+expect {
+	"(yes/no)?" {
+		send "yes\n"
+		expect "assword:"
+		send "abc123\n"
+		    }
+	"assword:" {
+		send "abc123\n"
+		  }
+}
+interact
+
+%end

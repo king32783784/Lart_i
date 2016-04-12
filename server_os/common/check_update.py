@@ -45,10 +45,10 @@ class Check_Update(ReadPublicinfo):
         locatedir = os.path.join(self.setup['xml_dict']['isoserver'][0],
                                  testiso)
         isourl = os.path.join(self.setup['xml_dict']['isourl'][0],
-                              testiso)
+                              testiso) 
         downloadfile(locatedir, isourl)
         filemd5 = os.popen('md5sum %s' % locatedir).read()
-        md5standard = self.getisomd5()
+        md5standard = self.getisomd5(testiso)
         if filemd5[0:32] == md5standard[0:32]:
             return "yes"
         else:
