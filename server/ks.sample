@@ -23,7 +23,7 @@ logging --level=info
 url --url=http://192.168.32.57/os
 # Network information
 #network --bootproto=dhcp --device=eth0 --onboot=on
-network --device=ens5 --activate --bootproto=static --ip=192.168.32.254 --netmask=255.255.255.0 --gateway=192.168.32.1 --nameserver=192.168.10.11
+network --device=ens5 --activate --bootproto=static --ip=256.256.256.256 --netmask=255.255.255.0 --gateway=192.168.32.1 --nameserver=192.168.10.11
 # Reboot after installation
 reboot
 #Root password

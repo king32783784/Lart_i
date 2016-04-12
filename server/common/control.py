@@ -55,17 +55,20 @@ class TestControl(multiprocessing.Process):
         pass
   
     def run(self):
+        serverstatus = multprocessing.JoinableQueue()
+        serverstatus.put('True')
         while True:
             testiso = self.dotestisos.get()
             testclient = self.readyclients.get()
-            starttestlist = []
-            startclient = ClientStart(testclient, testiso)
-            starttestlist.append(startclient)
-            print testclient, testiso
+            server_status = serverstatus.get()
+          #  starttestlist = []
+            startclient = ClientStart(testclient, testiso, server_status, serverstatus)
+         #   starttestlist.append(startclient)
+         #   print testclient, testiso
             startclient.start()
-            file('/tmp/daemon.pid', 'a+').write("%s\n" % startclient.pid)
-            for startclient in starttestlist:
-                startclient.join()
+       #     file('/tmp/daemon.pid', 'a+').write("%s\n" % startclient.pid)
+       #     for startclient in starttestlist:
+            startclient.join()
             time.sleep(30)
 
 

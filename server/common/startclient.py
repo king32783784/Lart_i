@@ -1,10 +1,13 @@
 import multiprocessing
 import time
 import os
+import shutil
 from check_update import Check_Update
 from server_client import Server_Client
 from downloadfile import downloadfile
 from check_clientstatus import Check_Clientstatus
+from modifyfile import ModifyFile
+
 
 class ClientStart(multiprocessing.Process, Check_Clientstatus, Check_Update):
     def __init__(self, runclient, testiso):
@@ -14,7 +17,8 @@ class ClientStart(multiprocessing.Process, Check_Clientstatus, Check_Update):
         self.testiso = testiso
     
     def set_kstart(self):
-        pass
+        setkscfgip = ModifyFile(self.runclient, "256.256.256.256", "ks.sample", "ks.cfg")
+        shutil.move("ks.cfg", "/var/www/html/")      
     
     def allowclientrestart(self):
         while True:
