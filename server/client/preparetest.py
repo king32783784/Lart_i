@@ -1,3 +1,5 @@
+'''
+    Enable client-side test preparation
+'''
 import os 
 
-file('/tmp/test.log', 'w').write('hello')

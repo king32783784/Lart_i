@@ -6,12 +6,14 @@
    Author:peng.li@i-soft.com.cn
    Time:20160413
 '''
+from public import ReadPublicinfo
 
 
 if __name__ == "__main__":
-    testxml = ReadPublicinfo()
-    setupinfo = testxml.setupinfo
-    daemon = Main(setupinfo)
+    testsettings = ReadPublicinfo()
+    setupinfo = testsettings.setupinfo
+    print "hello"
+ #   daemon = MainTest(setupinfo)
     if len(sys.argv) == 2:
         if 'start' == sys.argv[1]:
             daemon.start()
