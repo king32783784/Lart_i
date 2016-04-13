@@ -1,3 +1,7 @@
+'''
+   Start and control the module responsible for client installation,
+   the client test start and monitor the client start.
+'''
 import multiprocessing
 import time
 import os
@@ -9,17 +13,43 @@ from check_clientstatus import Check_Clientstatus
 from modifyfile import ModifyFile
 
 
-class ClientStart(multiprocessing.Process, Check_Clientstatus, Check_Update):
-    def __init__(self, runclient, testiso):
+class ClientStarttest(Server_Client):
+    def __init__(self, startclientip, localfile):
+        self.startclientip = startclientip
+        self.localfile = localfile
+        self.filetar = localfile + ".tar.bz2"
+        self.starttest()      
+        
+    def _scpfile(self):
+        print self.filetar
+        spawn_cmd = "scp %s root@%s:" % (self.filetar, self.startclientip)
+        print spawn_cmd
+        self._ssh(spawn_cmd, ' ')
+
+    def _starttest(self):
+        spawn_cmd = "ssh root@%s" % self.startclientip
+        do_cmd = ("tar xf %s" % self.filetar, "python client/clienttest.py")
+        self._ssh(spawn_cmd, do_cmd)
+
+    def starttest(self):
+        self._scpfile()
+        self._starttest()
+
+class ClientJob(multiprocessing.Process, Check_Clientstatus, Check_Update, ClientStarttest):
+    def __init__(self, runclient, testiso, serverstatus):
         multiprocessing.Process.__init__(self)
         Check_Update.__init__(self)
         self.runclient = runclient
         self.testiso = testiso
+        self.serverstatus = serverstatus
 
     def set_kstart(self):
+        print self.runclient
+        os.system("pwd")
+        kssample = '/var/www/html/ks.sample'
+        finalks = '/var/www/html/ks.cfg'
         setkscfgip = ModifyFile(self.runclient, "256.256.256.256",
-                                "ks.sample", "ks.cfg")
-        shutil.move("ks.cfg", "/var/www/html/")
+                                finalks, kssample)
 
     def check_clientinstalled(self):
         '''
@@ -62,15 +92,14 @@ class ClientStart(multiprocessing.Process, Check_Clientstatus, Check_Update):
                 time.sleep(60)
 
     def Realeaseserver(self):
-        pass
-
-    def clientstart(self):
-        pass
+        '''Realease server'''
+        self.server_status.put('True')
 
     def clientmonitoring(self):
         pass
 
     def isoinstall(self):
+        print self.runclient
         self.downloadiso(self.testiso)
         self.mountiso(self.testiso)
         self.set_kstart()
@@ -81,11 +110,12 @@ class ClientStart(multiprocessing.Process, Check_Clientstatus, Check_Update):
         self.isoinstall()
         self.allowclientrestart()
         self.checkclientlogin()
-        self.clientstart()
+        clientjob = ClientStarttest(self.runclient, 'client')
         self.clientmonitoring()
         time.sleep(120)
+
 # test case
 # 1
-# test = ClientStart('192.168.32.46', 'iso1')
+test = ClientStarttest('192.168.32.46', 'client')
 # a = test.checkclientinstalld()
 # print a

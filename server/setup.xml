@@ -12,7 +12,7 @@
             <clientip>192.168.32.252</clientip>
             <!--clientip:The test machine's ip-->
         <configlist>isourl</configlist>
-            <isourl>http://192.168.32.18/testiso/</isourl>
+            <isourl>http://192.168.30.170/iso-images/</isourl>
             <!--isourl:"Specifies the network path ISO store,forexample"http://xxx.xxx.xxx.xxx/xxx" -->
         <configlist>checkfrequency</configlist>
             <checkfrequency>120</checkfrequency>

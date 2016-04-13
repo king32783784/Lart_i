@@ -14,6 +14,7 @@ class Check_Update(ReadPublicinfo):
     def get_htmlcontent(self, xmlurl, remode):
         try:
             html_Context = urllib2.urlopen(xmlurl).read()
+            print html_Context
         except urllib2.HTTPError:
             print "ok"  # need report this error  to tester by mail
         html_Context = unicode(html_Context, 'utf-8')
@@ -38,6 +39,7 @@ class Check_Update(ReadPublicinfo):
         xmlurl = os.path.join(self.setup['xml_dict']['isourl'][0],
                               testiso) + '.md5sum'
         remode = "(.+)"
+        print xmlurl
         targetmd5 = self.get_htmlcontent(xmlurl, remode)
         return targetmd5[0]
 

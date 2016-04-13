@@ -12,7 +12,6 @@ class Server_Client():
             clientlogin = pexpect.spawn('%s' % cmd)
             index = clientlogin.expect([pexpect.TIMEOUT, ssh_newkey,
                                         'password: '], timeout=3)
-            print index
             if index == 0:
                 print "error"
                 print "%s can not login. Here is what SSH said:" % self.ip
@@ -21,22 +20,28 @@ class Server_Client():
                 clientlogin.sendline('yes')
                 clientlogin.expect('password: ')
                 clientlogin.sendline('abc123')
-                clientlogin.sendline('%s' % args)
+                for arg in args:
+                    clientlogin.sendline('%s' % arg)
+                clientlogin.sendline('exit')
                 clientlogin.interact()
             if index == 2:
                 clientlogin.sendline('abc123')
-                clientlogin.sendline('%s' % args)
+                for arg in args:
+                    clientlogin.sendline('%s' % arg)
+                clientlogin.sendline('exit')
                 clientlogin.interact()
         except (pexpect.exceptions.TIMEOUT, pexpect.exceptions.EOF):
             print "ssh %s timeout" % self.ip
 
     def _reboot(self):
-        cmd = "ssh root@%s" % self.ip
-        self._ssh(cmd, 'reboot')
+        spawn_cmd = "ssh root@%s" % self.ip
+        args = ('reboot')
+        self._ssh(spawn_cmd, args)
 
     def _scpfile(self, clientip,  remotefile):
-        cmd = "scp root@%s:%s ." % (clientip, remotefile)
-        self._ssh(cmd, ' ')
+        spawn_cmd = "scp root@%s:%s ." % (clientip, remotefile)
+        args = ()
+        self._ssh(spawn_cmd, args)
 
 
 # testa = Server_Client('192.168.32.46')

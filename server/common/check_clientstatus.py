@@ -9,16 +9,21 @@ from server_client import Server_Client
 
 class Check_Clientstatus(Server_Client):
     def checkstatus(self):
-        self._scpfile(self.ip, "/tmp/client_status")
+        args=("/tmp/client_status")
+        self._scpfile(self.ip, args)
         thestatus = linecache.getline("client_status", 1).strip('\n')
-        os.remove('client_status')
+        try:
+            os.remove('client_status')
+        except OSError:
+            pass
         if thestatus == 'locked':
             return "unready"
         else:
             return "ready"
 
     def checkinstallstatus(self):
-        self._scpfile(self.ip, "tmp/client_status")
+        args=("/tmp/client_status")
+        self._scpfile(self.ip, args)
         thestatus = linecache.getline("client_staus", 2).strip('\n')
         if thestatus == 'ready':
             return "ready"

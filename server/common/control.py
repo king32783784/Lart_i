@@ -8,9 +8,8 @@ from parsing_xml import Parsing_XML
 from initdaemon import Daemon
 from check_update import Check_Update
 from public import ReadPublicinfo
-from check_clientstatus import Check_Clientstatus
 from server_client import Server_Client
-from startclient import ClientStart
+from clientjob import ClientJob
 
 
 class IsoCheck(multiprocessing.Process, Check_Update):
@@ -48,33 +47,41 @@ class TestControl(multiprocessing.Process):
         '''
         while True:
             try:
+                print "start checkserverstatus"
                 server_status.get(block=False)
                 break
             except:
                 time.sleep(3)
+        print "checkserver ok"
 
     def _checkclient(self):
         '''
            Query whether there is available to the client
         '''
-        while True:
+        availableclient = ''
+        while availableclient is not True:
             for checkip in self.totalclients:
                 client_do = Check_Clientstatus(checkip)
                 clientstatus = client_do.checkstatus()
                 if clientstatus == 'ready':
                     availableclient = checkip
                     break
+            break
             time.sleep(3)
+        print availableclient
         return availableclient
 
     def run(self):
-        serverstatus = multprocessing.Queue()
+        serverstatus = multiprocessing.Queue()
         serverstatus.put('True')
         while True:
             self._checkserverstatus(serverstatus)
+            print "start client check"
             testclient = self._checkclient()
+            print "client ok, %s" % testclient
             testiso = self.dotestisos.get()
-            startclient = ClientStart(testclient, testiso, serverstatus)
+            print "testiso is %s" % testiso
+            startclient = ClientJob(testclient, testiso, serverstatus)
             startclient.start()
             startclient.join()
             time.sleep(30)
