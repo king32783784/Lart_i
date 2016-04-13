@@ -18,8 +18,8 @@ class ClientStarttest(Server_Client):
         self.startclientip = startclientip
         self.localfile = localfile
         self.filetar = localfile + ".tar.bz2"
-        self.starttest()      
-        
+        self.starttest()
+
     def _scpfile(self):
         print self.filetar
         spawn_cmd = "scp %s root@%s:" % (self.filetar, self.startclientip)
@@ -35,7 +35,9 @@ class ClientStarttest(Server_Client):
         self._scpfile()
         self._starttest()
 
-class ClientJob(multiprocessing.Process, Check_Clientstatus, Check_Update, ClientStarttest):
+
+class ClientJob(multiprocessing.Process, Check_Clientstatus,
+                Check_Update, ClientStarttest):
     def __init__(self, runclient, testiso, serverstatus):
         multiprocessing.Process.__init__(self)
         Check_Update.__init__(self)
@@ -87,11 +89,12 @@ class ClientJob(multiprocessing.Process, Check_Clientstatus, Check_Update, Clien
                 os.remove("/tmp/installed")
                 os.renove("/tmp/allowrestart")
                 self.setserverdhcp("start")
+                self.realeaseserver()
                 break
             else:
                 time.sleep(60)
 
-    def Realeaseserver(self):
+    def realeaseserver(self):
         '''Realease server'''
         self.server_status.put('True')
 
@@ -116,6 +119,4 @@ class ClientJob(multiprocessing.Process, Check_Clientstatus, Check_Update, Clien
 
 # test case
 # 1
-test = ClientStarttest('192.168.32.46', 'client')
-# a = test.checkclientinstalld()
-# print a
+# test = ClientStarttest('192.168.32.46', 'client')
