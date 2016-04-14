@@ -2,5 +2,14 @@ import os
 from modifyfile import ModifyFile():
 
 
-def locked_client():
+class testsetup():
+    '''
+        Test project settings
+    '''
+    def toolinstall(self):
+        pass
+
+    def packageinstall(self):
+        pass
+
 
