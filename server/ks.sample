@@ -66,17 +66,17 @@ expect
 %post
 
 sed -i '/daemon/a\AutomaticLoginEnable=true' /etc/gdm/custom.conf
-
 sed -i '/AutomaticLoginEnable/a\AutomaticLogin=test' /etc/gdm/custom.conf
 
-echo The iSoft Server OS Installation finished! > /home/test/install.log
+touch /tmp/installed
+echo -ne "locked\nready" > /tmp/client_status 
 
 %end
 
 %post --interpreter=/usr/bin/expect
 
 set timeout -1
-spawn scp /home/test/install.log root@192.168.32.57:/home/test
+spawn scp /tmp/installed root@192.168.32.57:/tmp/
 expect {
 	"(yes/no)?" {
 		send "yes\n"
@@ -90,3 +90,4 @@ expect {
 interact
 
 %end
+%post 

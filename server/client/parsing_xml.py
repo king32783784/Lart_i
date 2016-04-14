@@ -1,7 +1,6 @@
 import os
 import sys
 import xml.dom.minidom
-# from downloadfile import downLoadTestFile
 
 
 class Parsing_XML():
@@ -30,32 +29,18 @@ class Parsing_XML():
            key for the XML element, the corresponding value for a list of
            corresponding element tag content
         '''
-        xml_labels = self.parsing_label_list(self.Tagname)
+        xml_labels = self.parsing_label_list(self.Tagname)[0].split(' ')
         xml_elements_dict = {}
         for per_label in xml_labels:
             per_xml_label_list = self.parsing_label_list(per_label)
             xml_elements_dict[per_label] = per_xml_label_list
         xml_dict = {'xml_list': xml_labels, 'xml_dict': xml_elements_dict}
         return xml_dict
-
-
-class Parsing_test_XML(Parsing_XML):
-    ''' Parsing the test XMl files'''
-    def __init__(self, xml_file_name):
-        self.xmlfile = xml_file_name
-
-    def specific_elements(self, select_test_list):
-        '''Parse each test parameter'''
-
-        xml_test_Arguments_dict = {}
-        for per_label in select_test_list:
-            per_xml_label_list = self.parsing_label_list(per_label)
-            xml_test_Arguments_dict[per_label] = per_xml_label_list
-        return xml_test_Arguments_dict
-setupxml=Parsing_XML('Testsetup_sample.xml','setuptype')
-testdir=setupxml.specific_elements()
-print testdir
-# perftest=testdir['xml_dict']
-# testlist=Parsing_test_XML('performance.xml')
-# testarguments_list=testlist.specific_elements(perftest['performance'])
-# print testarguments_list
+# case1:parsing Testsetup_sample.xml
+# setupxml=Parsing_XML('Testsetup_sample.xml','setuptype')
+# testdir=setupxml.specific_elements()
+# print testdir
+# case2:parsing Test parameter.xml
+# testlist=Parsing_XML('Test_parameter.xml', ' ')
+# a = testlist.parsing_label_list('Perf_cpu')
+# print a

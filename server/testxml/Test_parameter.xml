@@ -2,7 +2,7 @@
 <!--[Lart-i Test suite ]-->
 <Perftestsuite>
   <SuiteInformation>
-    <Title>Test parameter setting</Title>
+    <Title>Performance test Suite</Title>
     <Version>1.0.0</Version>
     <TestType>Performane</TestType>
     <Description>This test suite for Linux systems performance evaluation.</Description>
