@@ -1,17 +1,20 @@
 '''
     Enable client-side test preparation
 '''
-import os 
+import os
 import subprocess
 from subprocess import PIPE, Popen
+from downloadfile import downloadfile
 
 
 class TestParpare():
-    def testtooldownload(self):
+
+    def testtooldownload(self, url, toolname):
         '''
            download test tool
         '''
-        pass
+        testtool = self.mkdirectory('testtool', '')
+        downloadfile(testtool, url, toolname)
 
     def baseddependency(self, *args):
         '''
@@ -32,10 +35,10 @@ class TestParpare():
                 default = os.path.join(default, sep.join(args))
                 os.makedirs(default)
             except OSError:
-                pass  
+                pass
             return fun(self, default, sep, *args)
         return add_mkdir
- 
+
     @joinpath
     def mkdirectory(self, default, sep, *args):
         '''
@@ -43,26 +46,16 @@ class TestParpare():
         '''
         return default
 
-    def logdirectory(self):
-        '''
-        Test log directory
-        '''
-        pass
+    def mkinstalldir(self):
+        self.mkdirectory('tmp', '')
 
-    def installdirectory(self):
-        '''
-        Test tool installation directory
-        '''
-        pass
-
-    def toolstorage(self):
-        '''
-        Test tool storage directory
-        '''
-        pass
 # testcase
-#a = TestParpare()
+#a=TestParpare()
+#TestParpare.mktooldir()
+#a.mkinstalldir()
 #b=a.mkdirectory('testresult/dafault', '/', 'performance', 'Perf_cpu', 'result')
 #print b
 #print a.baseddependency('make', 'gcc', 'g++', 'java', 'hello', 'ls')
-
+#testtool = a.mkdirectory('testtool', '' )
+#print testtool
+#a.testtooldownload('http://dl.360safe.com/360ap', '360FreeAP_Setup.exe')
