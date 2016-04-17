@@ -38,9 +38,9 @@ class Parsing_XML():
         return xml_dict
 # case1:parsing Testsetup_sample.xml
 # setupxml=Parsing_XML('Testsetup_sample.xml','setuptype')
-# testdir=setupxml.specific_elements()
 # print testdir
 # case2:parsing Test parameter.xml
-# testlist=Parsing_XML('Test_parameter.xml', ' ')
-# a = testlist.parsing_label_list('Perf_cpu')
-# print a
+#testlist=Parsing_XML('Test_parameter.xml', 'Perf_cpu')
+#setupxml = testlist.parsing_label_list('Perf_cpu')
+#testdir=testlist.specific_elements()
+#print testdir

@@ -69,9 +69,9 @@ class ReadPublicinfo(Parsing_XML):
                     dotestlist['function'] = tmpdict['cusfun'][0].split(' ')
         return dotestlist
 # TEST
-# a=ReadPublicinfo()
-# testtypelist = a.setupinfo['xml_dict']['defperf'][0].split(' ')
-# print testtypelist
-# print a.setupinfo['xml_dict']['defperf']
-# testlist = a.testlists()
-# print testlist
+#a=ReadPublicinfo()
+#testtypelist = a.setupinfo['xml_dict']['defperf'][0].split(' ')
+#print testtypelist
+#print a.setupinfo['xml_dict']['defperf']
+#testlist = a.testlists()
+#print testlist

@@ -15,7 +15,7 @@
   </Execute>
   <Execute>
     <Test>Perf_cpu</Test>
-    <Perf_cpu>'sysbench', cpu_max_prime=[10000,20000,30000], test_type='cpu', runtimes=3, tag='cpu'</Perf_cpu>
+    <Perf_cpu>testool=sysbench cpu_max_prime=[10000,20000,30000] test_type=cpu runtimes=3 tag='cpu'</Perf_cpu>
     <Description>sysbench</Description>
   </Execute>
   <Execute>
