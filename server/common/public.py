@@ -2,10 +2,10 @@ import os
 import linecache
 import time
 from parsing_xml import Parsing_XML
-
+from subprocess import check_output
 
 def testxmllocate():
-    homedir = os.popen('pwd').read().strip('\n')
+    homedir = check_output("pwd").strip('\n')
     local_xmlfile = os.path.join(homedir, 'setup.xml')
     return local_xmlfile
 
@@ -39,11 +39,8 @@ u'isoserver', u'resultdir', u'comparingos', u'maillist']
         test_setup_info = test_setup.specific_elements()
         return test_setup_info
 
-#    def testxmllocate(self):
-#        homedir = os.popen('pwd').read().strip('\n')
-#        local_xmlfile = os.path.join(homedir, 'setup.xml')
-#        print local_xmlfile
-#        return local_xmlfile
-# TEST
+# testcase
 # a=ReadPublicinfo()
 # print a.setupinfo
+# b = testxmllocate()
+# print b

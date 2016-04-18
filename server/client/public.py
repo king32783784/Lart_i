@@ -4,15 +4,9 @@ import time
 from parsing_xml import Parsing_XML
 
 
-def testxmllocate(xmlfile):
-    homedir = os.popen('pwd').read().strip('\n')
-    local_xmlfile = os.path.join(homedir, xmlfile)
-    return local_xmlfile
-
-
 class ReadPublicinfo(Parsing_XML):
-    setupxml = testxmllocate("Testsetup_sample.xml")
-    testparameterxml = testxmllocate("Test_parameter.xml")
+    setupxml = os.path.abspath("Testsetup_sample.xml")
+    testparameterxml = os.path.abspath("Test_parameter.xml")
 
     def __init__(self):
         self.osname = self.os_name()

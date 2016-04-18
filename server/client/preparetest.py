@@ -13,8 +13,9 @@ class TestParpare():
         '''
            download test tool
         '''
-        testtool = self.mkdirectory('testtool', '')
-        downloadfile(testtool, url, toolname)
+        testtool = self.mktooldir()
+        filepath = downloadfile(testtool, url, toolname)
+        return filepath
 
     def baseddependency(self, *args):
         '''
@@ -22,7 +23,8 @@ class TestParpare():
         '''
         deletioncmdlist = []
         for arg in args:
-            testcmd = Popen('which %s' % arg, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+            testcmd = Popen('which %s' % arg, stdout=subprocess.PIPE,
+                            stderr=subprocess.PIPE, shell=True)
             testcmd.wait()
             exitcode = testcmd.poll()
             if exitcode != 0:
@@ -44,18 +46,25 @@ class TestParpare():
         '''
         Test results directory processing
         '''
-        return default
+        return os.path.abspath(default)
 
     def mkinstalldir(self):
-        self.mkdirectory('tmp', '')
+        if os.path.exists('tmp') is False:
+            return self.mkdirectory('tmp', '')
+        else:
+            return os.path.abspath('tmp')
 
+    def mktooldir(self):
+        if os.path.exists('testtool') is False:
+            return self.mkdirectory('testtool', '')
+        else:
+            return os.path.abspath('testtool')
 # testcase
-#a=TestParpare()
-#TestParpare.mktooldir()
-#a.mkinstalldir()
-#b=a.mkdirectory('testresult/dafault', '/', 'performance', 'Perf_cpu', 'result')
-#print b
-#print a.baseddependency('make', 'gcc', 'g++', 'java', 'hello', 'ls')
-#testtool = a.mkdirectory('testtool', '' )
-#print testtool
-#a.testtooldownload('http://dl.360safe.com/360ap', '360FreeAP_Setup.exe')
+# a=TestParpare()
+# TestParpare.mktooldir()
+# a.testtooldownload('', '')
+# b=a.mkdirectory('testresult/dafault', '/', 'performance', 'Perf_cpu', 'result')
+# print a.baseddependency('make', 'gcc', 'g++', 'java', 'hello', 'ls')
+# testtool = a.mkdirectory('testtool', '' )
+# print testtool
+# a.testtooldownload('http://dl.360safe.com/360ap', '360FreeAP_Setup.exe')

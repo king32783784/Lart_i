@@ -9,6 +9,7 @@ def downloadfile(local_dir, url, filename):
     try:
         response = urllib2.urlopen(url)
         urllib.urlretrieve(url, local_dir)
+        return local_dir
     except:
         print '\tError download the file:', local_dir
         exit(1)

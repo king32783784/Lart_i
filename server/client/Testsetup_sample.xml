@@ -9,6 +9,7 @@
       <date>2016-04-13</date> 
     </info>  
     <import>
+      <testtoolurl>http://192.168.32.18/testtool/</testtoolurl>
       <testquery>yes</testquery>
       <!--Whether other tests are carried out after the test is finished--> 
       <testtype>default</testtype>  
@@ -31,7 +32,7 @@
       <!--Custom stability test items-->  
       <cusfun>Fun_kernel</cusfun>  
       <!--Custom function test items --> 
-      <setuptype>testquery testtype default defperf definfo defstab deffun cusperf cusinfo cusstb cusfun</setuptype>
+      <setuptype> testtoolurl testquery testtype default defperf definfo defstab deffun cusperf cusinfo cusstb cusfun</setuptype>
     </import>  
     <description> 
       <supporttype>info performance stability function</supporttype>  

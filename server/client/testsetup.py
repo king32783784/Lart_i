@@ -1,14 +1,36 @@
 import os
 import subprocess
+import tarfile
+import shutil
 from subprocess import PIPE, Popen, call
 from preparetest import TestParpare
+from public import ReadPublicinfo
 
-class testsetup(TestParpare):
+
+class TestSetup(TestParpare, ReadPublicinfo):
     '''
         Test project settings
     '''
-    def toolinstall(self):
-        pass
+
+    def decompressfile(self, filepath, filename):
+        fileformat = filepath.split('.')[-1]
+        tarfilepath = self.mkinstalldir()
+        tmpfilepath = os.path.join(tarfilepath, 'packet')
+        try:
+            filedecompress = tarfile.open("%s" % filepath,
+                                          "r:%s" % fileformat)
+            filedecompress.extractall(path=tmpfilepath)
+            filedecompress.close()
+        except IOError as err:
+            print "%s decompressfile  error : %s" % (filename, err)
+        except tarfile.CompressionError as err:
+            print "Decompressfile faild, %s" % err
+        bindir = os.path.join(tarfilepath, filename)
+        call('mv %s/* %s' % (tmpfilepath, bindir), shell=True)
+        print bindir
+
+    def toolinstall(self, filepath, filename):
+        self.decompressfile(filepath, filename)
 
     def pacagemanger(self, *args):
         '''
@@ -16,16 +38,20 @@ class testsetup(TestParpare):
         '''
         for arg in args:
             try:
-                if call('which %s' % arg, shell=True) is True:
+                retcode = call('which %s' % arg, shell=True)
+                if retcode == 0:
+                    return arg
                     break
             except OSError:
                 pass
-        print arg
-    def packageinstall(self):
-        defectlist = self.baseddependency('make', 'gcc', 'gcc-c++', 'java', 'ls')
-        for defect in defectlist:
-            call('dnf -y install %s' % defect, shell=True)
 
-#testcase    
-test = testsetup()
-test.pacagemanger('dnf', 'yum')
+    @staticmethod
+    def packageinstall(defectlist):
+        packagetool = self.pacagemanger('dnf', 'yum', 'apt-get')
+        for defect in defectlist:
+            call('%s -y install %s' % (packagetool, defect), shell=True)
+
+# testcase
+# test = testsetup()
+# test.packageinstall()
+# test.toolinstall('sysbench-0..12', 'tmp')
