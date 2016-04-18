@@ -27,10 +27,25 @@ class TestSetup(TestParpare, ReadPublicinfo):
             print "Decompressfile faild, %s" % err
         bindir = os.path.join(tarfilepath, filename)
         call('mv %s/* %s' % (tmpfilepath, bindir), shell=True)
-        print bindir
+        return bindir
 
-    def toolinstall(self, filepath, filename):
-        self.decompressfile(filepath, filename)
+    def _runsh(self, shcmd):
+        try:
+            call('sh %s' % shcmd, shell=True)
+        except:
+            pass
+
+    def _configure(self, args):
+        try:
+            call('./configure %s' % args, shell=True)
+        except:
+            pass
+
+    def _make(self, args):
+        try:
+            call('make %s', % args, shell=True)
+        except:
+            pass
 
     def pacagemanger(self, *args):
         '''

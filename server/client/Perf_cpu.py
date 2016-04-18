@@ -12,7 +12,7 @@ class Perf_cpu(TestParpare, ReadPublicinfo, TestSetup):
     tooltar = 'sysbench-0.4.12.tar.gz'
 
     def initialize(self):
-        defectlist = self.baseddependency('gcc', 'make', 'libtool')
+        defectlist = self.baseddependency('gcc', 'make', 'automake', 'libtool')
         if len(defectlist) > 0:
             self.packageinstall(defectlist)
 
@@ -23,7 +23,13 @@ class Perf_cpu(TestParpare, ReadPublicinfo, TestSetup):
         toolurl = self.setupinfo['xml_dict']['testtoolurl'][0]
         filepath = self.testtooldownload(toolurl, self.tooltar)
         self.initialize()
-        self.toolinstall(filepath, self.__class__.__name__)
+        srcdir = self.decompressfile(filepath, self.__class__.__name__)
+        os.chdir(srcdir)
+        self._configure('--without-mysql')
+        self._make('')
+
+    def _runtest(self):
+        pass
 # testcase
 a = Perf_cpu()
 a.initialize()
