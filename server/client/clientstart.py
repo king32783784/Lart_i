@@ -6,26 +6,24 @@
    Author:peng.li@i-soft.com.cn
    Time:20160413
 '''
-from public import ReadPublicinfo
+from optparse import OptionParser
+from testdrive import TestDrive
 
+def recivefile():
+    parser = OptionParser()
+    parser.add_option("-t", "--testxml", dest="testxmlname",
+                      help="testxml")
+    parser.add_option("-s", "--setupxml", dest="setupxmlname",
+                      help="do not print status")
+    (options, args) = parser.parse_args()
+    xmlfiles = {}
+    xmlfiles['testxml'] = options.testxmlname
+    xmlfiles['setupxml'] = options.setupxmlname
+    return xmlfiles
 
 if __name__ == "__main__":
-    testsettings = ReadPublicinfo()
-    setupinfo = testsettings.setupinfo
-    print setupinfo
-    print "hello"
-#   daemon = MainTest(setupinfo)
-    if len(sys.argv) == 2:
-        if 'start' == sys.argv[1]:
-            daemon.start()
-        elif 'stop' == sys.argv[1]:
-            daemon.stop()
-        elif 'restart' == sys.argv[1]:
-            daemon.restart()
-        else:
-            print "unknown command"
-            sys.exit(2)
-        sys.exit(0)
-    else:
-        print "useage: %s start|stop|restart" % sys.argv[0]
-        sys.exit(2)
+    xmlfile = recivefile()
+    print xmlfile
+    print xmlfile['setupxml']
+    daemon = TestDrive(xmlfile['setupxml'], xmlfile['testxml'])
+    daemon.start()

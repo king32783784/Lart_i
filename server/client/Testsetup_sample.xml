@@ -14,9 +14,9 @@
       <!--Whether other tests are carried out after the test is finished--> 
       <testtype>default</testtype>  
       <!-- default:Default test type custom:Custom test type-->  
-      <default>performance stability</default>  
+      <default>performance</default>  
       <!--Specify default test type-->  
-      <defperf>Perf_cpu Perf_mem Perf_io</defperf>  
+      <defperf>Perf_cpu</defperf>  
       <!--Default performance test items-->  
       <definfo>Hwinfo</definfo>  
       <!--Default info test items-->  

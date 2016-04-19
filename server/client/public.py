@@ -5,10 +5,10 @@ from parsing_xml import Parsing_XML
 
 
 class ReadPublicinfo():
-    setupxml = os.path.abspath("Testsetup_sample.xml")
-    testparameterxml = os.path.abspath("Test_parameter.xml")
 
-    def __init__(self):
+    def __init__(self, setupxml, testparameterxml):
+        self.setupxml = setupxml
+        self.testparameterxml = testparameterxml
         self.osname = self.os_name()
         self.setupinfo = self.setup_info()
         self.dotestlist = self.testlists()
