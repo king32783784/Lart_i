@@ -6,10 +6,9 @@ import os
 from preparetest import TestParpare
 from public import ReadPublicinfo
 from testsetup import TestSetup
+from parameter import ParameterAnalysis
 
-
-class Perf_cpu(TestParpare, ReadPublicinfo, TestSetup):
-    tooltar = 'sysbench-0.4.12.tar.gz'
+class Perf_cpu(TestParpare, ReadPublicinfo, TestSetup, ParameterAnalysis):
 
     def initialize(self):
         defectlist = self.baseddependency('gcc', 'make', 'automake', 'libtool')
@@ -21,16 +20,22 @@ class Perf_cpu(TestParpare, ReadPublicinfo, TestSetup):
          Setup before starting test
         '''
         toolurl = self.setupinfo['xml_dict']['testtoolurl'][0]
-        filepath = self.testtooldownload(toolurl, self.tooltar)
+        tooltar = self.baseparameter('Test_parameter.xml')['xml_dict']['testool'][0]
+        filepath = self.testtooldownload(toolurl, tooltar)
         self.initialize()
         srcdir = self.decompressfile(filepath, self.__class__.__name__)
         os.chdir(srcdir)
         self._configure('--without-mysql')
-        self._make('')
+        self._make('LIBTOOL=/usr/bin/libtool install')
 
     def _runtest(self):
-        pass
+        basearg = self.baseparameter(self.__class__.__name__)
+        cpu_max_prime=basearg['cpu_max_prime'].split(',')
+        for max_prime in cpu_max_prime:
+            cmd = "sysbench --test=%s --cpu-max-prime=%s run" % (basearg['test_type'], max_prime)
+            print cmd
 # testcase
-a = Perf_cpu()
-a.initialize()
-a._setup()
+#a = Perf_cpu()
+#a.initialize()
+#a._setup()
+#a._runtest()

@@ -4,7 +4,7 @@ import time
 from parsing_xml import Parsing_XML
 
 
-class ReadPublicinfo(Parsing_XML):
+class ReadPublicinfo():
     setupxml = os.path.abspath("Testsetup_sample.xml")
     testparameterxml = os.path.abspath("Test_parameter.xml")
 
@@ -32,8 +32,7 @@ class ReadPublicinfo(Parsing_XML):
             ['Fun_kernel'], 'cusperf':['Perf_cpu'],'cusinfo':[],'cusstab'
             :[],'cusfun':[]
         '''
-        test_setup = Parsing_XML(self.setupxml, 'setuptype')
-        test_setup_info = test_setup.specific_elements()
+        test_setup_info = Parsing_XML.specific_elements('setuptype', self.setupxml)
         return test_setup_info
 
     def testlists(self):
@@ -66,6 +65,6 @@ class ReadPublicinfo(Parsing_XML):
 #a=ReadPublicinfo()
 #testtypelist = a.setupinfo['xml_dict']['defperf'][0].split(' ')
 #print testtypelist
-#print a.setupinfo['xml_dict']['defperf']
+#print a.setupinfo
 #testlist = a.testlists()
 #print testlist

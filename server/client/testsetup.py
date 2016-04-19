@@ -43,10 +43,27 @@ class TestSetup(TestParpare, ReadPublicinfo):
 
     def _make(self, args):
         try:
-            call('make %s', % args, shell=True)
+            call('make clean', shell=True)
         except:
             pass
+        try:
+            call('make %s' % args, shell=True)
+        except:
+            pass
+    def _rmfile(self, args):
+        try:
+            os.remove(args)
+        except OSError:
+            pass
 
+    def _cpfile(self, src, dst):
+        try:
+            shutil.copy('%s' % src, '%s' % dst)
+            print "mv ok"
+        except:
+            pass
+        print "hello"
+            
     def pacagemanger(self, *args):
         '''
            Check test tool based on

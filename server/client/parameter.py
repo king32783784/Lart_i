@@ -1,12 +1,11 @@
 import os
 from parsing_xml import Parsing_XML
+from public import ReadPublicinfo
 
-
-class ParameterAnalysis(Parsing_XML):
+class ParameterAnalysis():
 
     def baseparameter(self, doitem):
-        test = Parsing_XML(self.xmlfile, '')
-        itembasecmd = test.parsing_label_list(doitem)
+        itembasecmd = Parsing_XML.parsing_label_list(doitem, ReadPublicinfo.testparameterxml)
         test = itembasecmd[0].split(' ')
         itembasecmd = {}
         for pertest in test:
@@ -24,5 +23,6 @@ class ParameterAnalysis(Parsing_XML):
         pass
 
 #testcase
-#test = ParameterAnalysis('Test_parameter.xml', '')
-#a = test.baseparameter('Perf_cpu')
+test = ParameterAnalysis()
+a = test.baseparameter('Perf_cpu')
+print a
