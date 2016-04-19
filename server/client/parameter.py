@@ -1,11 +1,10 @@
 import os
 from parsing_xml import Parsing_XML
-from public import ReadPublicinfo
 
-class ParameterAnalysis(ReadPublicinfo):
+class ParameterAnalysis():
 
-    def baseparameter(self, doitem):
-        itembasecmd = Parsing_XML.parsing_label_list(doitem, self.testparameterxml)
+    def baseparameter(self, doitem, testxml):
+        itembasecmd = Parsing_XML.parsing_label_list(doitem, testxml)
         test = itembasecmd[0].split(' ')
         itembasecmd = {}
         for pertest in test:

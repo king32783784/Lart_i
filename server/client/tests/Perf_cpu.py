@@ -6,20 +6,16 @@ import os
 from runtest import RunTest
 
 class Perf_cpu(RunTest):
-
-    def initialize(self):
-        defectlist = self.baseddependency('gcc', 'make', 'automake', 'libtool')
-        if len(defectlist) > 0:
-            self.packageinstall(defectlist)
+    def __init__(self, setupxml, testxml):
+        self.setupxml = setupxml
+        self.testxml = testxml
 
     def _setup(self):
         '''
          Setup before starting test
         '''
-        toolurl = self.setupinfo['xml_dict']['testtoolurl'][0]
-        tooltar = self.baseparameter('Test_parameter.xml')['xml_dict']['testool'][0]
-        filepath = self.testtooldownload(toolurl, tooltar)
-        self.initialize()
+        RunTest._depend('gcc', 'make', 'automake', 'libtool')
+        RunTest._download(self.setupxml, self.testxml, 'Perf_cpu')
         srcdir = self.decompressfile(filepath, self.__class__.__name__)
         os.chdir(srcdir)
         self._configure('--without-mysql')
