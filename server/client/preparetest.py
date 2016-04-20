@@ -17,7 +17,8 @@ class TestParpare():
         filepath = downloadfile(testtool, url, toolname)
         return filepath
 
-    def baseddependency(self, *args):
+    @staticmethod
+    def baseddependency(*args):
         '''
            Check test tool based on
         '''

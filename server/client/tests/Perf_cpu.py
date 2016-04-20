@@ -7,28 +7,31 @@ from runtest import RunTest
 
 class Perf_cpu(RunTest):
     def __init__(self, setupxml, testxml):
-        self.setupxml = setupxml
-        self.testxml = testxml
+        self.setupxml = os.path.abspath(setupxml)
+        self.testxml = os.path.abspath(testxml)
 
     def _setup(self):
         '''
          Setup before starting test
         '''
+        print self.setupxml
         RunTest._depend('gcc', 'make', 'automake', 'libtool')
-        RunTest._download(self.setupxml, self.testxml, 'Perf_cpu')
-        srcdir = self.decompressfile(filepath, self.__class__.__name__)
+        srcdir = RunTest._pretesttool(self.setupxml, self.testxml, 'Perf_cpu')
+        
         os.chdir(srcdir)
         self._configure('--without-mysql')
-        self._make('LIBTOOL=/usr/bin/libtool install')
+        self._make('LIBTOOL=/usr/bin/libtool')
 
     def _runtest(self):
-        basearg = self.baseparameter(self.__class__.__name__)
+        basearg = self.baseparameter('Perf_cpu', self.testxml)
+        print basearg
+        runtimes = basearg['runtimes']
         cpu_max_prime=basearg['cpu_max_prime'].split(',')
         for max_prime in cpu_max_prime:
-            cmd = "sysbench --test=%s --cpu-max-prime=%s run" % (basearg['test_type'], max_prime)
-            print cmd
+            cmd = "--test=%s --cpu-max-prime=%s run" % (basearg['test_type'], max_prime)
+            RunTest._dotest('sysbench', cmd, runtimes)
+             
 # testcase
-#a = Perf_cpu()
-#a.initialize()
+#a = Perf_cpu('Testsetup_sample.xml', 'Test_parameter.xml')
 #a._setup()
 #a._runtest()

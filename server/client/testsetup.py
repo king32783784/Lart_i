@@ -4,10 +4,9 @@ import tarfile
 import shutil
 from subprocess import PIPE, Popen, call
 from preparetest import TestParpare
-from public import ReadPublicinfo
 
 
-class TestSetup(TestParpare, ReadPublicinfo):
+class TestSetup(TestParpare):
     '''
         Test project settings
     '''
@@ -50,6 +49,11 @@ class TestSetup(TestParpare, ReadPublicinfo):
             call('make %s' % args, shell=True)
         except:
             pass
+        try:
+            call('make install %s' % args, shell=True)
+        except:
+            pass
+
     def _rmfile(self, args):
         try:
             os.remove(args)

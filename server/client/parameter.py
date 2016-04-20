@@ -3,7 +3,8 @@ from parsing_xml import Parsing_XML
 
 class ParameterAnalysis():
 
-    def baseparameter(self, doitem, testxml):
+    @staticmethod
+    def baseparameter(doitem, testxml):
         itembasecmd = Parsing_XML.parsing_label_list(doitem, testxml)
         test = itembasecmd[0].split(' ')
         itembasecmd = {}
