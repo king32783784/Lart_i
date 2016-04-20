@@ -5,11 +5,11 @@
 import os
 from runtest import RunTest
 
-class Perf_cpu(RunTest):
+class DoTest(RunTest):
     def __init__(self, setupxml, testxml):
         self.setupxml = os.path.abspath(setupxml)
         self.testxml = os.path.abspath(testxml)
-
+    
     def _setup(self):
         '''
          Setup before starting test

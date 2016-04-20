@@ -1,6 +1,7 @@
 '''
    Implementation test drive
 '''
+import os
 import sys
 from initdaemon import Daemon
 from public import ReadPublicinfo
@@ -13,10 +14,10 @@ class TestDrive(Daemon, ReadPublicinfo, TestParpare):
         ReadPublicinfo.__init__(self, setupxml, testxml)  
         Daemon.__init__(self)
         self.testmode = self.setupinfo['xml_dict']['testtype'][0]
-        sys.path.append('test')
+        self.setupxml = setupxml
+        self.testxml = testxml
     
     def testselect(self):
-        print testmode
         if self.testmode == 'default':
             self._runtest()
         if self.testmode == 'cusfun':
@@ -29,18 +30,17 @@ class TestDrive(Daemon, ReadPublicinfo, TestParpare):
                              '%s' % pertesttype, '%s' %pertest,
                              '%s' % pertype)
 
-    def _runtest(self):   
+    def _runtest(self): 
         testlist = self.dotestlist
         for pertesttype in testlist:
             for pertest in testlist[pertesttype]:
-                print pertest
                 self.mktestdir(pertesttype, pertest)
+                print pertest
                 job = __import__('%s' % pertest)
-                self.runjob(job)
-
-    @classmethod
-    def runjob(job):
-        job._setup()        
+                test = job.DoTest(self.setupxml, self.testxml)
+                test._setup()
+                test._runtest()
+        
 
     def _run(self):
         self.testselect()
@@ -48,8 +48,8 @@ class TestDrive(Daemon, ReadPublicinfo, TestParpare):
 
 # testcase
 # case1
-test = TestDrive('Testsetup_sample.xml', 'Test_parameter.xml')
-test._runtest()
+#test = TestDrive('Testsetup_sample.xml', 'Test_parameter.xml')
+#test._run()
 #test='Perf_cpu'
 #job = __import__('%s' % test)
 
