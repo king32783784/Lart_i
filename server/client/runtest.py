@@ -4,7 +4,7 @@ from preparetest import TestParpare
 from public import ReadPublicinfo
 from testsetup import TestSetup
 from parameter import ParameterAnalysis
-from subprocess import call
+from subprocess import call, PIPE, Popen
 
 
 class RunTest(TestSetup, ParameterAnalysis):
@@ -16,16 +16,14 @@ class RunTest(TestSetup, ParameterAnalysis):
             self.packageinstall(defectlist)
 
     @staticmethod
-    def _pretesttool(setupxml, testxml, testitem):
+    def _pretesttool(setupxml, testxml, testitem, homepath):
         setinfo = ReadPublicinfo(setupxml, testxml)
-        print setinfo.setupinfo
         url = setinfo.setupinfo['xml_dict']['testtoolurl'][0]
         testitemargs = ParameterAnalysis.baseparameter(testitem, testxml)
         tarname = testitemargs['tarbal']
         setup = TestSetup()
         tarfilepath = setup.testtooldownload(url, tarname)
-        testbindir = setup.decompressfile(tarfilepath, testitem)
-        print testbindir
+        testbindir = setup.decompressfile(tarfilepath, testitem, homepath)
         return testbindir
                         
 
@@ -48,7 +46,10 @@ class RunTest(TestSetup, ParameterAnalysis):
                 break
         cmds = [executable, cmd]
         finalcmd = os.path.join(' ', ' '.join(cmds))
+        print finalcmd
         for runonce in range(int(runtimes)):
-            call(finalcmd, shell=True)
+            test = Popen(finalcmd, stdout=PIPE, shell=True)
+            stdout = test.communicate()[0]
+            print stdout
 
 #RunTest._pretesttool('Testsetup_sample.xml', 'Test_parameter.xml', 'Perf_cpu')

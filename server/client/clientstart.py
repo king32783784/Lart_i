@@ -8,8 +8,10 @@
 '''
 import os
 import sys
+import logging
 from optparse import OptionParser
 from testdrive import TestDrive
+from logging_config import Logging_Config
 
 
 def recivefile():
@@ -25,6 +27,7 @@ def recivefile():
     return xmlfiles
 
 if __name__ == "__main__":
+    Logging_Config.setlogger('client', 'client.log')
     sys.path.append(os.path.abspath('tests'))
     xmlfile = recivefile()
     Mytestapp = TestDrive(xmlfile['setupxml'], xmlfile['testxml'])

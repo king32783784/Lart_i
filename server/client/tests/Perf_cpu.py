@@ -6,9 +6,10 @@ import os
 from runtest import RunTest
 
 class DoTest(RunTest):
-    def __init__(self, setupxml, testxml):
+    def __init__(self, setupxml, testxml, homepath):
         self.setupxml = os.path.abspath(setupxml)
         self.testxml = os.path.abspath(testxml)
+        self.homepath = homepath
     
     def _setup(self):
         '''
@@ -16,7 +17,7 @@ class DoTest(RunTest):
         '''
         print self.setupxml
         RunTest._depend('gcc', 'make', 'automake', 'libtool')
-        srcdir = RunTest._pretesttool(self.setupxml, self.testxml, 'Perf_cpu')
+        srcdir = RunTest._pretesttool(self.setupxml, self.testxml, 'Perf_cpu', self.homepath)
         
         os.chdir(srcdir)
         self._configure('--without-mysql')

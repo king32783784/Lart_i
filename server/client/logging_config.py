@@ -1,5 +1,7 @@
 import logging, logging.handlers
-
+import sys
+from subprocess import Popen, PIPE
+ 
 
 class Logging_Config():
     @staticmethod
@@ -15,7 +17,7 @@ class Logging_Config():
         # create console handler with a higher log level 
         ch = logging.StreamHandler()
         # set console handeler Level ERROR
-        ch.setLevel(logging.ERROR)
+        ch.setLevel(logging.DEBUG)
         # create formatter and add it to the handlers
         formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
         # set FileHandler format
@@ -27,28 +29,28 @@ class Logging_Config():
         logger.addHandler(ch)
 
 
-class EncodingFormatter(logging.Formatter):
-    def __init__(self, fmt, datefmt=None, encoding=None):
-        logging.Formatter.__init__(self, fmt, datefmt)
-        self.encoding = encoding
+class StreamToLogger():
+    """
+    Fake file-like stream object that redirects writes to a logger instance.
+    """
+    def __init__(self, logger, log_level=logging.INFO):
+        self.logger = logger
+        self.log_level = log_level
+        self.linebuf = ''
 
-    def format(self, record):
-        result = logging.Formatter.format(self, record)
-        if isinstance(result, unicode)
-            result = result.encode(self.encoding or 'utf-8')
-        return result
+    def write(self, buf):
+        for line in buf.rstrip().splitlines():
+            self.logger.log(self.log_level, line.rstrip())
 
-'''
-def test():
-    root = logging.getLogger()
-    sh = logging.handlers.SMTPHandler(mailhost=('localhost', 25),
-                                     fromaddr='vms@test.com',
-                                     toaddrs='test@test.com',
-                                     subject='Logged Event')
-    root.addHandler(sh)
-    sh.setFormatter(EncodingFormatter('%(message)s', encoding='uft-8'))
-    root.error(u'accentu\u00e9')
-'''
-    
-        
+#Logging_Config.setlogger('Perfcpu', 'perfcpu.log')
+#stdout_logger = logging.getLogger('Perfcpu')
+#sl = StreamToLogger(stdout_logger, logging.INFO)
+#sys.stdout = sl
 
+#stderr_logger = logging.getLogger('Perfcpu')
+#sl = StreamToLogger(stderr_logger, logging.ERROR)
+#sys.stderr = sl
+
+#test = Popen(["dmesg"], stdout=PIPE)
+#print test.communicate()[0]
+#print stdout

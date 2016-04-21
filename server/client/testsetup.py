@@ -11,9 +11,12 @@ class TestSetup(TestParpare):
         Test project settings
     '''
 
-    def decompressfile(self, filepath, filename):
+    def decompressfile(self, filepath, filename, homepath):
         fileformat = filepath.split('.')[-1]
-        tarfilepath = self.mkinstalldir()
+        installdir = os.path.join(homepath, 'tmp')
+        tarfilepath = self.mkinstalldir(installdir)
+        print homepath
+        tarfilepath = os.path.join(homepath, tarfilepath)
         tmpfilepath = os.path.join(tarfilepath, 'packet')
         try:
             filedecompress = tarfile.open("%s" % filepath,
@@ -26,6 +29,7 @@ class TestSetup(TestParpare):
             print "Decompressfile faild, %s" % err
         bindir = os.path.join(tarfilepath, filename)
         call('mv %s/* %s' % (tmpfilepath, bindir), shell=True)
+        print bindir
         return bindir
 
     def _runsh(self, shcmd):
@@ -36,21 +40,30 @@ class TestSetup(TestParpare):
 
     def _configure(self, args):
         try:
-            call('./configure %s' % args, shell=True)
+            configure = Popen('./configure %s' % args, stdout=PIPE, shell=True)
+            stdout = configure.communicate()[0]
+            print stdout
         except:
             pass
 
     def _make(self, args):
         try:
-            call('make clean', shell=True)
+            make = Popen('make clean', stdout=PIPE, shell=True)
+            stdout = make.communicate()[0]
+            print stdout
         except:
             pass
         try:
-            call('make %s' % args, shell=True)
+            make = Popen('make %s' % args, stdout=PIPE, shell=True)
+            stdout = make.communicate()[0]
+            print stdout
         except:
             pass
         try:
-            call('make install %s' % args, shell=True)
+            make = Popen('make install %s' % args, stdout=PIPE, shell=True)
+            stdout = make.communicate()[0]
+            print stdout
+
         except:
             pass
 

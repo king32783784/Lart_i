@@ -49,11 +49,11 @@ class TestParpare():
         '''
         return os.path.abspath(default)
 
-    def mkinstalldir(self):
-        if os.path.exists('tmp') is False:
-            return self.mkdirectory('tmp', '')
+    def mkinstalldir(self, installdir):
+        if os.path.exists(installdir) is False:
+            return self.mkdirectory(installdir, '')
         else:
-            return os.path.abspath('tmp')
+            pass
 
     def mktooldir(self):
         if os.path.exists('testtool') is False:
@@ -61,10 +61,10 @@ class TestParpare():
         else:
             return os.path.abspath('testtool')
 # testcase
-# a=TestParpare()
-# TestParpare.mktooldir()
+#a=TestParpare()
+#TestParpare.mktooldir()
 # a.testtooldownload('', '')
-# b=a.mkdirectory('testresult/dafault', '/', 'performance', 'Perf_cpu', 'result')
+#b=a.mkdirectory('tmp', ' ')
 # print a.baseddependency('make', 'gcc', 'g++', 'java', 'hello', 'ls')
 # testtool = a.mkdirectory('testtool', '' )
 # print testtool
