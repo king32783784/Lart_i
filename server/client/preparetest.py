@@ -9,11 +9,12 @@ from downloadfile import downloadfile
 
 class TestParpare():
 
-    def testtooldownload(self, url, toolname):
+    def testtooldownload(self, url, toolname, homepath):
         '''
            download test tool
         '''
-        testtool = self.mktooldir()
+        testtool = os.path.join(homepath, 'testtool')
+        testtool = self.mktooldir(testtool)
         filepath = downloadfile(testtool, url, toolname)
         return filepath
 
@@ -38,7 +39,7 @@ class TestParpare():
                 default = os.path.join(default, sep.join(args))
                 os.makedirs(default)
             except OSError:
-                pass
+                print 'joinpath filed'
             return fun(self, default, sep, *args)
         return add_mkdir
 
@@ -53,18 +54,18 @@ class TestParpare():
         if os.path.exists(installdir) is False:
             return self.mkdirectory(installdir, '')
         else:
-            pass
+            print '%s prepare ok' % installdir 
 
-    def mktooldir(self):
-        if os.path.exists('testtool') is False:
-            return self.mkdirectory('testtool', '')
+    def mktooldir(self, testtool):
+        if os.path.exists(testtool) is False:
+            return self.mkdirectory(testtool, '')
         else:
-            return os.path.abspath('testtool')
+            print '%s prepare ok' % testtool
 # testcase
-#a=TestParpare()
-#TestParpare.mktooldir()
+# a=TestParpare()
+# TestParpare.mktooldir()
 # a.testtooldownload('', '')
-#b=a.mkdirectory('tmp', ' ')
+# b=a.mkdirectory('tmp', ' ')
 # print a.baseddependency('make', 'gcc', 'g++', 'java', 'hello', 'ls')
 # testtool = a.mkdirectory('testtool', '' )
 # print testtool

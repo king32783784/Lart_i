@@ -1,6 +1,7 @@
 import os
 from parsing_xml import Parsing_XML
 
+
 class ParameterAnalysis():
 
     @staticmethod
@@ -22,7 +23,7 @@ class ParameterAnalysis():
     def run_cmd(self):
         pass
 
-#testcase
-#test = ParameterAnalysis()
-#a = test.baseparameter('Perf_cpu')
-#print a
+# testcase
+# test = ParameterAnalysis()
+# a = test.baseparameter('Perf_cpu')
+# print a

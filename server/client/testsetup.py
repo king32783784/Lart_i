@@ -29,7 +29,6 @@ class TestSetup(TestParpare):
             print "Decompressfile faild, %s" % err
         bindir = os.path.join(tarfilepath, filename)
         call('mv %s/* %s' % (tmpfilepath, bindir), shell=True)
-        print bindir
         return bindir
 
     def _runsh(self, shcmd):
@@ -63,7 +62,6 @@ class TestSetup(TestParpare):
             make = Popen('make install %s' % args, stdout=PIPE, shell=True)
             stdout = make.communicate()[0]
             print stdout
-
         except:
             pass
 
@@ -79,8 +77,7 @@ class TestSetup(TestParpare):
             print "mv ok"
         except:
             pass
-        print "hello"
-            
+
     def pacagemanger(self, *args):
         '''
            Check test tool based on

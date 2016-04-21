@@ -11,22 +11,23 @@ from preparetest import TestParpare
 from logging_config import *
 
 
-
 class TestDrive(Daemon, ReadPublicinfo, TestParpare):
     logger = logging.getLogger('client')
     homepath = os.getcwd()
+
     def __init__(self, setupxml, testxml):
-        ReadPublicinfo.__init__(self, setupxml, testxml)  
+        ReadPublicinfo.__init__(self, setupxml, testxml)
         Daemon.__init__(self)
         self.testmode = self.setupinfo['xml_dict']['testtype'][0]
         self.setupxml = setupxml
         self.testxml = testxml
-    
+
     def testselect(self):
         if self.testmode == 'default':
             self.logger.info('default test start')
             self._runtest()
         if self.testmode == 'custom':
+            self.logger.info('custom test start')
             pass    # Interface
 
     def mktestdir(self, pertesttype, pertest):
@@ -35,12 +36,12 @@ class TestDrive(Daemon, ReadPublicinfo, TestParpare):
         localpath = os.path.join(self.homepath, 'testresult/%s' % self.testmode)
         for pertype in dirtypes:
             dirpath = self.mkdirectory('%s' % localpath, '/',
-                                       '%s' % pertesttype, '%s' %pertest,
+                                       '%s' % pertesttype, '%s' % pertest,
                                        '%s' % pertype)
             dirlist[pertype] = dirpath
         return dirlist
 
-    def _runtest(self): 
+    def _runtest(self):
         testlist = self.dotestlist
         for pertesttype in testlist:
             for pertest in testlist[pertesttype]:
@@ -57,7 +58,6 @@ class TestDrive(Daemon, ReadPublicinfo, TestParpare):
                 test = StreamToLogger(stdout_logger, logging.INFO)
                 sys.stdout = test
                 runjob._runtest()
-        
 
     def _run(self):
         self.logger.info('test start')
@@ -66,8 +66,7 @@ class TestDrive(Daemon, ReadPublicinfo, TestParpare):
 
 # testcase
 # case1
-#test = TestDrive('Testsetup_sample.xml', 'Test_parameter.xml')
-#test._run()
-#test='Perf_cpu'
-#job = __import__('%s' % test)
-
+# test = TestDrive('Testsetup_sample.xml', 'Test_parameter.xml')
+# test._run()
+# test='Perf_cpu'
+# job = __import__('%s' % test)

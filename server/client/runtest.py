@@ -22,7 +22,7 @@ class RunTest(TestSetup, ParameterAnalysis):
         testitemargs = ParameterAnalysis.baseparameter(testitem, testxml)
         tarname = testitemargs['tarbal']
         setup = TestSetup()
-        tarfilepath = setup.testtooldownload(url, tarname)
+        tarfilepath = setup.testtooldownload(url, tarname, homepath)
         testbindir = setup.decompressfile(tarfilepath, testitem, homepath)
         return testbindir
                         
