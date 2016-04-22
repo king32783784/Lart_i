@@ -36,6 +36,7 @@ u'isoserver', u'resultdir', u'comparingos', u'maillist']
 [u'/var/www/html/testiso/']}}
         '''
         test_setup = Parsing_XML(self.setupxml, 'configlist')
+        print self.setupxml
         test_setup_info = test_setup.specific_elements()
         return test_setup_info
 

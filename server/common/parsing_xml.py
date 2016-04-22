@@ -1,7 +1,6 @@
 import os
 import sys
 import xml.dom.minidom
-# from downloadfile import downLoadTestFile
 
 
 class Parsing_XML():
