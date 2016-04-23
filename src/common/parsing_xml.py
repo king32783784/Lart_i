@@ -51,9 +51,10 @@ class Parsing_test_XML(Parsing_XML):
             per_xml_label_list = self.parsing_label_list(per_label)
             xml_test_Arguments_dict[per_label] = per_xml_label_list
         return xml_test_Arguments_dict
-# setupxml=Parsing_XML('TestList.xml','Selecttype')
-# testdir=setupxml.specific_elements()
-# print testdir
+
+#setupxml=Parsing_XML('setup.xml','configlist')
+#testdir=setupxml.specific_elements()
+#print testdir
 # perftest=testdir['xml_dict']
 # testlist=Parsing_test_XML('performance.xml')
 # testarguments_list=testlist.specific_elements(perftest['performance'])

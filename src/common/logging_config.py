@@ -29,19 +29,6 @@ class Logging_Config():
         logger.addHandler(ch)
 
 
-class StreamToLogger():
-    """
-    Fake file-like stream object that redirects writes to a logger instance.
-    """
-    def __init__(self, logger, log_level=logging.INFO):
-        self.logger = logger
-        self.log_level = log_level
-        self.linebuf = ''
-
-    def write(self, buf):
-        for line in buf.rstrip().splitlines():
-            self.logger.log(self.log_level, line.rstrip())
-
 #Logging_Config.setlogger('Perfcpu', 'perfcpu.log')
 #stdout_logger = logging.getLogger('Perfcpu')
 #sl = StreamToLogger(stdout_logger, logging.INFO)

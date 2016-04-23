@@ -2,6 +2,7 @@ import sys
 import time
 import multiprocessing
 import linecache
+import logging
 from multiprocessing import Queue
 from collections import deque
 from parsing_xml import Parsing_XML
@@ -10,7 +11,9 @@ from check_update import Check_Update
 from public import ReadPublicinfo
 from server_client import Server_Client
 from clientjob import ClientJob
+from check_clientstatus import Check_Clientstatus
 
+lartlogger = logging.getLogger('Lart_i_server')
 
 class IsoCheck(multiprocessing.Process, Check_Update):
     '''
@@ -27,6 +30,7 @@ class IsoCheck(multiprocessing.Process, Check_Update):
         while True:
             gettestiso = Check_Update().isoname
             if gettestiso > firstiso:
+                lartlogger.info('%s is add to test ISO queue' % gettestiso)
                 self.dotestisos.put(gettestiso)
             firstiso = gettestiso
             time.sleep(300)
@@ -47,28 +51,30 @@ class TestControl(multiprocessing.Process):
         '''
         while True:
             try:
-                print "start checkserverstatus"
+                lartlogger.info("start checkserverstatus")
                 server_status.get(block=False)
                 break
             except:
                 time.sleep(3)
-        print "checkserver ok"
+        lartlogger.info("checkserver ok")
 
     def _checkclient(self):
         '''
            Query whether there is available to the client
         '''
-        availableclient = ''
-        while availableclient is not True:
+        checktype = "FALSE"
+        while checktype == "FALSE":
             for checkip in self.totalclients:
                 client_do = Check_Clientstatus(checkip)
                 clientstatus = client_do.checkstatus()
                 if clientstatus == 'ready':
+                    lartlogger.info("client %s: is ready" % checkip)
                     availableclient = checkip
-                    break
-            break
+                    checktype = "TRUE"
+                else:
+                    lartlogger.info("cliet %s: is not ready" % checkip)
             time.sleep(3)
-        print availableclient
+        print "the test ip is %s " % availableclient
         return availableclient
 
     def run(self):
@@ -76,11 +82,10 @@ class TestControl(multiprocessing.Process):
         serverstatus.put('True')
         while True:
             self._checkserverstatus(serverstatus)
-            print "start client check"
+            lartlogger.info("start client check")
             testclient = self._checkclient()
-            print "client ok, %s" % testclient
             testiso = self.dotestisos.get()
-            print "testiso is %s" % testiso
+            lartlogger.info( "testiso is %s" % testiso)
             startclient = ClientJob(testclient, testiso, serverstatus)
             startclient.start()
             startclient.join()

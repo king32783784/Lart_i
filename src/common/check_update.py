@@ -1,8 +1,12 @@
 import urllib2
 import re
 import os
+import logging
+from subprocess import Popen, PIPE
 from downloadfile import downloadfile
 from public import ReadPublicinfo
+
+lartlogger = logging.getLogger('Lart_i_server')
 
 
 class Check_Update(ReadPublicinfo):
@@ -14,9 +18,8 @@ class Check_Update(ReadPublicinfo):
     def get_htmlcontent(self, xmlurl, remode):
         try:
             html_Context = urllib2.urlopen(xmlurl).read()
-            print html_Context
         except urllib2.HTTPError:
-            print "ok"  # need report this error  to tester by mail
+            lartlogger.error('%s is open failed' % xmlurl)  # need report this error  to tester by mail
         html_Context = unicode(html_Context, 'utf-8')
         return re.findall(r"%s" % remode, html_Context)
 
@@ -39,7 +42,7 @@ class Check_Update(ReadPublicinfo):
         xmlurl = os.path.join(self.setup['xml_dict']['isourl'][0],
                               testiso) + '.md5sum'
         remode = "(.+)"
-        print xmlurl
+        lartlogger.info(xmlurl)
         targetmd5 = self.get_htmlcontent(xmlurl, remode)
         return targetmd5[0]
 
@@ -49,7 +52,8 @@ class Check_Update(ReadPublicinfo):
         isourl = os.path.join(self.setup['xml_dict']['isourl'][0],
                               testiso) 
         downloadfile(locatedir, isourl)
-        filemd5 = os.popen('md5sum %s' % locatedir).read()
+        filemdsum = Popen('md5sum %s' % locatedir, stdout=PIPE, shell=True)
+        filemd5=filemdsum.communicate()[0]
         md5standard = self.getisomd5(testiso)
         if filemd5[0:32] == md5standard[0:32]:
             return "yes"
@@ -60,4 +64,4 @@ class Check_Update(ReadPublicinfo):
         cmds = 'mount -t iso9660 -o loop /var/www/html/testiso/%s /var/www/html/testingiso' % testiso
         mountstatus = os.system('%s' % cmds)
         if mountstatus != 0:
-            print 'mount testiso faild,please chech it'  # need to mail
+            lartlogger.error('mount testiso faild,please chech it')  # need to mail

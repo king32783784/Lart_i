@@ -5,7 +5,9 @@ import os
 import pexpect
 import linecache
 from server_client import Server_Client
+import logging
 
+lartlogger = logging.getLogger('Lart_i_server')
 
 class Check_Clientstatus(Server_Client):
     def checkstatus(self):
@@ -16,10 +18,10 @@ class Check_Clientstatus(Server_Client):
             os.remove('client_status')
         except OSError:
             pass
-        if thestatus == 'locked':
-            return "unready"
-        else:
+        if thestatus == 'unlocked':
             return "ready"
+        else:
+            return "notready"
 
     def checkinstallstatus(self):
         args=("/tmp/client_status")
@@ -30,6 +32,6 @@ class Check_Clientstatus(Server_Client):
         else:
             return "unready"
 
-# tests = Check_Clientstatus('192.168.32.46')
-# a = tests.checkstatus()
-# print a
+#tests = Check_Clientstatus('192.168.32.46')
+#a = tests.checkstatus()
+#print a
