@@ -21,14 +21,13 @@ class ClientStarttest(Server_Client):
         self.starttest()
 
     def _scpfile(self):
-        print self.filetar
         spawn_cmd = "scp %s root@%s:" % (self.filetar, self.startclientip)
-        print spawn_cmd
         self._ssh(spawn_cmd, ' ')
 
     def _starttest(self):
         spawn_cmd = "ssh root@%s" % self.startclientip
-        do_cmd = ("tar xf %s" % self.filetar, "python client/clienttest.py")
+        do_cmd = ("tar xf %s" % self.filetar,
+                  "python clientstart.py -t %s -s %s" % (clienttest, clientsetup))
         self._ssh(spawn_cmd, do_cmd)
 
     def starttest(self):
@@ -46,7 +45,6 @@ class ClientJob(multiprocessing.Process, Check_Clientstatus,
         self.serverstatus = serverstatus
 
     def set_kstart(self):
-        print self.runclient
         os.system("pwd")
         kssample = '/var/www/html/ks.sample'
         finalks = '/var/www/html/ks.cfg'
@@ -116,6 +114,10 @@ class ClientJob(multiprocessing.Process, Check_Clientstatus,
         clientjob = ClientStarttest(self.runclient, 'client')
         self.clientmonitoring()
         time.sleep(120)
+
+    def clientsetup(self):
+        pass
+
 
 # test case
 # 1

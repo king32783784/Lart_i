@@ -74,7 +74,6 @@ class TestControl(multiprocessing.Process):
                 else:
                     lartlogger.info("cliet %s: is not ready" % checkip)
             time.sleep(3)
-        print "the test ip is %s " % availableclient
         return availableclient
 
     def run(self):

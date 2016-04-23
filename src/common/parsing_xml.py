@@ -1,6 +1,9 @@
 import os
 import sys
 import xml.dom.minidom
+import logging
+
+lartlogger = logging.getLogger('Lart_i_server')
 
 
 class Parsing_XML():
@@ -15,7 +18,7 @@ class Parsing_XML():
             xml_dom = xml.dom.minidom.parse(self.xmlfile)
             xml_label = xml_dom.getElementsByTagName(labelname)
         except IOError:
-            print 'Failed to open %s file,Please check it' % self.xmlfile
+            lartlogger.error('Failed to open %s file,Please check it' % self.xmlfile)
             exit(1)
         xml_label_list = []
         for single_label in xml_label:

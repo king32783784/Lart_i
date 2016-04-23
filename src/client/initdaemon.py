@@ -12,7 +12,7 @@ class Daemon():
     A generic daemon class.
     Usage: subclass the Daemon class and override the _run() method
     """
-    def __init__(self, pidfile='/tmp/daemon.pid', stdin='/dev/null',
+    def __init__(self, pidfile='/tmp/client.pid', stdin='/dev/null',
                  stdout='/dev/null', stderr='/dev/null'):
         self.stdin = stdin
         self.stdout = stdout
