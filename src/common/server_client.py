@@ -4,7 +4,7 @@ import logging
 
 lartlogger = logging.getLogger('Lart_i_server')
 
-class Server_Client():
+class Server_Client(object):
     def __init__(self, clientip):
         self.ip = clientip
 

@@ -1,7 +1,7 @@
 import re
 
 
-class ModifyFile():
+class ModifyFile(object):
     def __init__(self, newcontent, oldcontent, newfile, oldfile):
         self.newcontent = newcontent
         self.oldcontent = oldcontent

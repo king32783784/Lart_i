@@ -3,7 +3,7 @@ import sys
 from subprocess import Popen, PIPE
  
 
-class Logging_Config():
+class Logging_Config(object):
     @staticmethod
     def setlogger(loggername, logfile):
         # create logger with 'loggername'

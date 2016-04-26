@@ -27,7 +27,7 @@ class ClientStarttest(Server_Client):
     def _starttest(self):
         spawn_cmd = "ssh root@%s" % self.startclientip
         do_cmd = ("tar xf %s" % self.filetar,
-                  "python clientstart.py -t %s -s %s" % (clienttest, clientsetup))
+                  "python clientstart.py -t Test_parameter.xml  -s Test_setup.xml")
         self._ssh(spawn_cmd, do_cmd)
 
     def starttest(self):

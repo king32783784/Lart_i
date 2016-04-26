@@ -6,7 +6,7 @@ import logging
 lartlogger = logging.getLogger('Lart_i_server')
 
 
-class Parsing_XML():
+class Parsing_XML(object):
     '''Parsing XML-formatted files for Lart_i'''
     def __init__(self, xml_file_name, Tagname='labelname'):
         self.xmlfile = xml_file_name
