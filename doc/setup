@@ -1,4 +1,4 @@
-1.测试需要两台机器，1台作为server端，1台做为client端
+1.测试需要多台机器，1台作为server端，至少1台做为client端
 server端：
     存放测试工具
     存放待测ISO，并作为ISO服务器
