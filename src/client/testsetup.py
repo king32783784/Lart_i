@@ -15,7 +15,7 @@ class TestSetup(TestParpare):
         fileformat = filepath.split('.')[-1]
         installdir = os.path.join(homepath, 'tmp')
         tarfilepath = self.mkinstalldir(installdir)
-        print homepath
+        print "test is %s" % tarfilepath
         tarfilepath = os.path.join(homepath, tarfilepath)
         tmpfilepath = os.path.join(tarfilepath, 'packet')
         try:

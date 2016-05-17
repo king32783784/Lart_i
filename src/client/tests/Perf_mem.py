@@ -26,11 +26,11 @@ class DoTest(RunTest):
     def _runtest(self):
         basearg = self.baseparameter('Perf_mem', self.testxml)
         print basearg
-        runtimes = basearg['runtimes']
-        cpu_max_prime=basearg['cpu_max_prime'].split(',')
-        for max_prime in cpu_max_prime:
-            cmd = "--test=%s --cpu-max-prime=%s run" % (basearg['test_type'], max_prime)
-            RunTest._dotest('sysbench', cmd, runtimes)
+        num_threads = basearg['num_threads'].split(',')
+        print num_threads
+        for num_thread in num_threads:
+            cmd = "--test=%s --num-threads=%s --memory-block-size=%s --memory-total-size=%s run" % (basearg['test_type'], num_thread, basearg['block_size'], basearg['total_size'])
+            RunTest._dotest('sysbench', cmd, basearg['runtimes'])
              
 # testcase
 #a = Perf_cpu('Testsetup_sample.xml', 'Test_parameter.xml')

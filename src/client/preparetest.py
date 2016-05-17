@@ -55,13 +55,13 @@ class TestParpare():
         if os.path.exists(installdir) is False:
             return self.mkdirectory(installdir, '')
         else:
-            print '%s prepare ok' % installdir 
+            return installdir 
 
     def mktooldir(self, testtool):
         if os.path.exists(testtool) is False:
             return self.mkdirectory(testtool, '')
         else:
-            print '%s prepare ok' % testtool
+            return testtool
 # testcase
 # a=TestParpare()
 # TestParpare.mktooldir()
