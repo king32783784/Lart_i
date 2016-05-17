@@ -20,7 +20,7 @@
   </Execute>
   <Execute>
     <Test>Perf_mem</Test>
-    <Perf_mem>'sysbench', num_threads=[4,8], test_type='memory', block_size='4096',total_size='8G', runtimes=3, tag='cpu'</Perf_mem>
+    <Perf_mem>tarbal=sysbench-0.4.12.tar.gz num_threads=[4,8] test_type=memory block_size=4096 total_size=8G runtimes=3 tag='cpu' reboot=no</Perf_mem>
     <Description>sysbench</Description>
   </Execute>
 </Perftestsuite>
