@@ -2,6 +2,7 @@
    Implementation test drive
 '''
 import os
+import shutil
 import sys
 import logging
 from initdaemon import Daemon
@@ -33,7 +34,9 @@ class TestDrive(Daemon, ReadPublicinfo, TestParpare):
     def mktestdir(self, pertesttype, pertest):
         dirtypes = ['result', 'debug']
         dirlist = {}
-        localpath = os.path.join(self.homepath, 'testresult/%s' % self.testmode)
+        localpath = os.path.join(self.homepath, 'resulttmp/%s' % self.testmode)
+        if os.path.exists(localpath):
+            shutil.rmtree(localpath)
         for pertype in dirtypes:
             dirpath = self.mkdirectory('%s' % localpath, '/',
                                        '%s' % pertesttype, '%s' % pertest,

@@ -31,7 +31,6 @@ class DoTest(RunTest):
         for max_prime in cpu_max_prime:
             cmd = "--test=%s --cpu-max-prime=%s run" % (basearg['test_type'], max_prime)
             RunTest._dotest('sysbench', cmd, runtimes)
-             
 # testcase
 #a = Perf_cpu('Testsetup_sample.xml', 'Test_parameter.xml')
 #a._setup()
