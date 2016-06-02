@@ -38,7 +38,7 @@ class Server_Client(object):
 
     def _reboot(self):
         spawn_cmd = "ssh root@%s" % self.ip
-        args = ('reboot')
+        args = ['reboot']
         lartlogger.info('client %s is reboot now' % self.ip)
         self._ssh(spawn_cmd, args)
 
