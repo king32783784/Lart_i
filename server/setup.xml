@@ -9,7 +9,6 @@
     <common>
         <configlist>clientip</configlist>
             <clientip>192.168.32.46</clientip>
-            <clientip>192.168.32.252</clientip>
             <!--clientip:The test machine's ip-->
         <configlist>isourl</configlist>
             <isourl>http://192.168.30.170/iso-images/</isourl>

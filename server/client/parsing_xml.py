@@ -36,5 +36,5 @@ class Parsing_XML():
         xml_dict = {'xml_list': xml_labels, 'xml_dict': xml_elements_dict}
         return xml_dict
 # case1:parsing Testsetup_sample.xml
-# a = Parsing_XML.specific_elements('setuptype', 'Testsetup_sample.xml')
-# print a
+#a = Parsing_XML.specific_elements('setuptype', 'Test_setup.xml')
+#print a

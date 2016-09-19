@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<test ostype="server"> 
+  <list> 
+    <info> 
+      <summary>This is a list system update test requirements.</summary>  
+      <osversion>4.0</osversion>  
+      <arch>x86_64</arch>  
+      <date>2016-04-13</date> 
+    </info>  
+    <import>
+      <setuptype>testquery</setuptype>
+      <testquery>yes</testquery>
+      <!--Whether other tests are carried out after the test is finished--> 
+      <setuptype>testtype</setuptype>
+      <testtype>default</testtype>  
+      <!-- default:Default test type custom:Custom test type-->  
+      <setuptype>default</setuptype>
+      <default>performance</default>  
+      <!--Specify default test type-->  
+      <setuptype>defperf</setuptype>
+      <defperf>Perf_cpu</defperf>  
+      <!--Default performance test items-->  
+      <setuptype>definfo</setuptype>
+      <definfo>Hwinfo</definfo>  
+      <!--Default info test items-->  
+      <setuptype>defstab</setuptype>
+      <defstab>Stb_cpu</defstab>  
+      <!--Default stability test items-->  
+      <setuptype>deffun</setuptype>
+      <deffun>Fun_kernel</deffun>  
+      <!--Default function test items-->  
+      <setuptype>cusperf</setuptype>
+      <cusperf>Perf_cpu</cusperf>  
+      <!--Custom performance test items-->  
+      <setuptype>cusinfo</setuptype>
+      <cusinfo>Hwinfo</cusinfo>  
+      <!--Custom info test items-->  
+      <setuptype>cusstb</setuptype>
+      <cusstb>Stb_cpu</cusstb>  
+      <!--Custom stability test items-->  
+      <setuptype>cusfun</setuptype>
+      <cusfun>Fun_kernel</cusfun>  
+      <!--Custom function test items --> 
+    </import>  
+    <description> 
+      <supporttype>info performance stability function</supporttype>  
+      <!--Supporttype:Supported test types-->  
+      <perfsupportlists>Perf_kernel Perf_cpu Perf_thread Perf_mem Perf_io Perf_net Perf_os</perfsupportlists>  
+      <!--Perfsupportlists:Supported performance test items-->  
+      <stbsupportlists>Perf_cpu......</stbsupportlists>  
+      <!--stbsupportlists:Supported stability test items-->  
+      <infosupportlists>Hwinfo Softinfo</infosupportlists>  
+      <!--infosupportlists:Supported info test items-->  
+      <stbsupportlists>Stb_cpu......</stbsupportlists>  
+      <!--stbsupportlists:Supported stbility test items-->  
+      <funsupportlists>Fun_kernel</funsupportlists>  
+      <!--funsupportlists:Supported function test items--> 
+    </description> 
+  </list> 
+</test>
